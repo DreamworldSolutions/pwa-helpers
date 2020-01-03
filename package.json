@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/DreamworldSolutions/pwa-helpers/issues"
   },
-  "homepage": "https://github.com/DreamworldSolutions/pwa-helpers#readme"
+  "homepage": "https://github.com/DreamworldSolutions/pwa-helpers#readme",
+  "dependencies": {
+    "bowser": "^2.8.1"
+  }
 }
