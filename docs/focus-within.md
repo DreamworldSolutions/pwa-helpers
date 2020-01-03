@@ -28,7 +28,7 @@ npm install --save @dreamworld/pwa-healpers
 @import {LitElement} from 'lit-element';
 	
 //Apply focus-within mixin to lit-element class
-class DwListItem extends DwSwipe(LitElement) {}
+class DwListItem extends focusWithin(LitElement) {}
 ```
 
 ##### How to write focus/focus-within css?
