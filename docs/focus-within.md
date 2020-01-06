@@ -14,7 +14,7 @@ More information on [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/:focu
 
 #### Installation
 ```sh
-npm install --save @dreamworld/pwa-healpers
+npm install --save @dreamworld/pwa-helpers
 ```
 
 #### Usage
