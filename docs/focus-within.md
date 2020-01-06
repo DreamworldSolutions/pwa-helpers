@@ -22,10 +22,10 @@ npm install --save @dreamworld/pwa-helpers
 ##### Apply Mixin to your view-element Class.
 ```javascript
 //Import focus-within mixin
-@import {focusWithin} from '@dreamworld/pwa-helpers';
+import {focusWithin} from '@dreamworld/pwa-helpers';
 	
 //Import lit-element class
-@import {LitElement} from 'lit-element';
+import {LitElement} from 'lit-element';
 	
 //Apply focus-within mixin to lit-element class
 class DwListItem extends focusWithin(LitElement) {}
