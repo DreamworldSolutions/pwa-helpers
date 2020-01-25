@@ -1,6 +1,11 @@
 # focus-within
 
-The `:focus-within` is not supported in `edge/ie` browser, So this mixin provides a solution to write CSS in `edge/ie` browser.
+There are 2 problems in Microsoft IE/Edge:
+1. For WebComponents, `:host(:focus)` CSS doesn't work. Note:: `:focus` css works at other places (other than `:host`)
+2. The `:focus-within` is not supported in `edge/ie` browser. This is in general either used with `:host` or not.
+
+
+So this mixin provides solutions to the above CSS problems in `edge/ie` browser. It sets `focus` and `focus-within` attributes on Host element, for IE/Edge browser. So, we can write CSS based on the host attribute.
 
 
 The `:focus-within` CSS pseudo-class represents an element that has received focus or contains an element that has received focus. In other words, it represents an element that is itself matched by the :focus pseudo-class or has a descendant that is matched by `:focus` (This includes descendants in shadow trees).
@@ -32,6 +37,8 @@ class DwListItem extends focusWithin(LitElement) {}
 ```
 
 ##### How to write focus/focus-within css?
+
+**IMPORTANT!!!!!**
 ```css
 //Don't write css like this for all browser.
 //This css isn't working in edge browser, because :host(:focus) css selector is ignored in edge/ie browser.
@@ -41,6 +48,8 @@ class DwListItem extends focusWithin(LitElement) {}
 :host(:focus-within) {
   background-color: var(--mdc-theme-primary, #6200ee);
 }
+
+//Instead, you need to write your CSS (duplicated) as follows. We don't know why, by above syntax doesn't work.
 
 //For edge/ie browser
 :host([focus]),

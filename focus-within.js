@@ -10,7 +10,7 @@ export const focusWithin = (baseElement) => class extends baseElement {
   static get properties() {
     return {
       /**
-       * Element is focused or not.
+       * Element is focused or not, at present.
        */
       _focus: { type: Boolean, reflect: true, attribute: 'focus' },
 
