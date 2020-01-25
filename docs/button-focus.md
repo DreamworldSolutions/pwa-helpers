@@ -1,6 +1,6 @@
 # button-focus
 
-The button(`<button></button>` OR `<input type=button />`) focus is not working(with tabindex or without tabindex) in `iPhone/safari`, `iPhone/chrome` and `macbook/safari` this browser, So this mixin provide a solution to at least focus on his parent.
+The button(`<button></button>` OR `<input type=button />`) focus is not working(with tabindex or without tabindex) in browsers: `iPhone/safari`, `iPhone/chrome` and `macbook/safari`. So, this mixin provides a solution to have the focus on it's parent element. 
 
 This mixins use with your custom button element like `dw-button` or `dw-icon-button`.
 
@@ -66,18 +66,18 @@ class DwButton extends buttonFocus(LitElement) {
 
 ## How it works
 
-This mixin will work on `firstUpdated` or `updated` lit-element method invoked and `attributeChangedCallback` callback is called. 
+This mixin will work on `firstUpdated` or `updated` life-cycle methods of `LitElement` and when `attributeChangedCallback` callback is called. 
 
-When current item is disabled then remove tabindex attribute from item using `removeAttribute` HTML DOM method),
-Otherwise set tabindex attribute as a `0` to item using `setAttribute` HTML DOM method.
+When current item is disabled then remove tabindex attribute from host-element using `removeAttribute` (HTML DOM method).
+Otherwise, set tabindex attribute as a `0` to item using `setAttribute` HTML DOM method.
 
 ## Properties
 
 | Name  | Type | Description |
 | ----  | ---- | ----------- |
-| disabled | Boolean | Current element is disabled or not.  |
-| buttonFocusDisabled | Boolean | Button focus mixin is work or not.  |
-| tabindex | Number | Set tabindex for undisabled item. Default value is 0(Zero).|
+| `disabled` | Boolean | Used/Read by this mixin to detect whether this element is disabled or not. When disabled it removes `tabindex` attribute. Otherwise, sets it.  |
+| `buttonFocusDisabled` | Boolean | Set this to `true` to disable this behavior.  |
+| `tabindex` | Number | Set this to the specific (desired) value of tabindex. Default value: `0`|
 
 
 

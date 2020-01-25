@@ -52,48 +52,21 @@ export const buttonFocus = (baseElement) => class extends baseElement {
    */
   attributeChangedCallback(name, oldval, newval) {
     super.attributeChangedCallback && super.attributeChangedCallback(name, oldval, newval);
-
-    //If button focus mixin is disabled.
-    if(this.buttonFocusDisabled) {
-      return;
-    }
-
     if (name === 'disabled') {
-      if (this._isDisabled()) {
-        this._removeTabindex();
-      } else {
-        this._setTabindex();
-      }
+      this._updateTabIndex();
     }
   }
 
   firstUpdated(changedProperties) {
     super.firstUpdated && super.firstUpdated(changedProperties);
-
-    //If button focus mixin is disabled.
-    if(this.buttonFocusDisabled) {
-      return;
-    }
-
-    this.updateComplete.then(() => {
-      this._isDisabled() ? this._removeTabindex() : this._setTabindex();
-    });
+    this._updateTabIndex();
   }
 
   updated(changedProperties) {
     super.updated && super.updated(changedProperties);
 
-    //If button focus mixin is disabled.
-    if(this.buttonFocusDisabled) {
-      return;
-    }
-
-    if (changedProperties.has('disabled')) {
-      if (this._isDisabled()) {
-        this._removeTabindex();
-      } else {
-        this._setTabindex();
-      }
+    if (changedProperties.has('disabled') || changedProperties.has('tabindex')) {
+      this._updateTabIndex();
     }
   }
 
@@ -103,15 +76,25 @@ export const buttonFocus = (baseElement) => class extends baseElement {
     super.disconnectedCallback && super.disconnectedCallback();
   }
 
+
+
+  _updateTabIndex(){
+    if(this.buttonFocusDisabled) {
+      return;
+    }
+
+    if ((this.__browserName === 'Safari') || (this.__OSName === 'iOS' && this.__browserName === 'Chrome')) {
+      this._isDisabled() ? this._removeTabindex() : this._setTabindex();
+    }
+  }
+
   /**
    * When current browser is `Safari` OR current device is 'IOS' and current browser is `Chrome` then
    *  - Set `tabindex` attribute as a `0`(zero).
    * @protected
    */
   _setTabindex() {
-    if ((this.__browserName === 'Safari') || (this.__OSName === 'iOS' && this.__browserName === 'Chrome')) {
-      this.setAttribute("tabindex", this.tabindex);
-    }
+    this.setAttribute("tabindex", this.tabindex);
   }
 
   /**
