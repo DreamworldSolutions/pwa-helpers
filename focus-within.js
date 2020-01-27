@@ -3,7 +3,9 @@ import Bowser from "bowser";
 export const focusWithin = (baseElement) => class extends baseElement {
   constructor() {
     super();
+    this._setFocus = this._setFocus.bind(this);
     this._setFocusWithin = this._setFocusWithin.bind(this);
+    this._removeFocus = this._removeFocus.bind(this);
     this._removeFocusWithin = this._removeFocusWithin.bind(this);
   }
 
@@ -42,11 +44,11 @@ export const focusWithin = (baseElement) => class extends baseElement {
    * @protected
    */
   _bindFocusEvents() {
-    this.addEventListener('focus', this._setFocusWithin);
+    this.addEventListener('focus', this._setFocus);
     this.addEventListener('focusin', this._setFocusWithin);
 
+    this.addEventListener('blur', this._removeFocus);
     this.addEventListener('focusout', this._removeFocusWithin);
-    this.addEventListener('blur', this._removeFocusWithin);
   }
 
   /**
@@ -54,21 +56,22 @@ export const focusWithin = (baseElement) => class extends baseElement {
    * @protected
    */
   _unbindFocusEvents() {
-    this.removeEventListener('focus', this._setFocusWithin);
+    this.removeEventListener('focus', this._setFocus);
     this.removeEventListener('focusin', this._setFocusWithin);
 
-    this.removeEventListener('blur', this._removeFocusWithin);
+    this.removeEventListener('blur', this._removeFocus);
     this.removeEventListener('focusout', this._removeFocusWithin);
   }
+
 
   /**
    * Set `_focus` as a `true`.
    * Set `_focusWithin` as a `true`.
    * @protected
    */
-  _setFocusWithin() {
+  _setFocus() {
     this._focus = true;
-    this._focusWithin = true;
+    this._setFocusWithin();
   }
 
   /**
@@ -76,8 +79,24 @@ export const focusWithin = (baseElement) => class extends baseElement {
    * Set `_focusWithin` as a `false`.
    * @protected
    */
-  _removeFocusWithin() {
+  _removeFocus() {
     this._focus = false;
+    this._removeFocusWithin();
+  }
+
+  /**
+   * Set `_focusWithin` as a `true`.
+   * @protected
+   */
+  _setFocusWithin() {
+    this._focusWithin = true;
+  }
+
+  /**
+   * Set `_focusWithin` as a `false`.
+   * @protected
+   */
+  _removeFocusWithin() {
     this._focusWithin = false;
   }
 }

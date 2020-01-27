@@ -76,8 +76,12 @@ export const buttonFocus = (baseElement) => class extends baseElement {
     super.disconnectedCallback && super.disconnectedCallback();
   }
 
-
-
+  /**
+   * When current browser is `Safari` OR current device is 'IOS' and current browser is `Chrome` then
+   *  - When current el is diasbled then remove tabindex.
+   *  - Otherwise set tab index.
+   * @protected
+   */
   _updateTabIndex(){
     if(this.buttonFocusDisabled) {
       return;
@@ -89,8 +93,7 @@ export const buttonFocus = (baseElement) => class extends baseElement {
   }
 
   /**
-   * When current browser is `Safari` OR current device is 'IOS' and current browser is `Chrome` then
-   *  - Set `tabindex` attribute as a `0`(zero).
+   * Set `tabindex` attribute as a `tabindex` property.
    * @protected
    */
   _setTabindex() {
