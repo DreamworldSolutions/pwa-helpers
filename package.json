@@ -1,5 +1,5 @@
 {
-  "name": "pwa-helpers",
+  "name": "@dreamworld/pwa-helpers",
   "version": "0.0.0-development",
   "description": "PWA (and LitElement) helper components",
   "main": "index.js",
@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/DreamworldSolutions/pwa-helpers/issues"
   },
-  "homepage": "https://github.com/DreamworldSolutions/pwa-helpers#readme"
+  "homepage": "https://github.com/DreamworldSolutions/pwa-helpers#readme",
+  "dependencies": {
+    "bowser": "^2.8.1"
+  }
 }
