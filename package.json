@@ -13,6 +13,10 @@
   "publishConfig": {
     "access": "public"
   },
+  "dependencies": {
+    "bowser": "^2.8.1",
+    "lit-element": "^2.2.1"
+  },
   "devDependencies": {
     "semantic-release": "16.0.0-beta.23"
   },
@@ -24,8 +28,5 @@
   "bugs": {
     "url": "https://github.com/DreamworldSolutions/pwa-helpers/issues"
   },
-  "homepage": "https://github.com/DreamworldSolutions/pwa-helpers#readme",
-  "dependencies": {
-    "bowser": "^2.8.1"
-  }
+  "homepage": "https://github.com/DreamworldSolutions/pwa-helpers#readme"
 }
