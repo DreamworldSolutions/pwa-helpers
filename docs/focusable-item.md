@@ -1,6 +1,9 @@
 # focusable
 
-- It is a focusable view element.
+It's an generic block-level element (like `div`) which receives focus.
+
+It actually implements [`focusable` behavior](focusable.md). So, read it's doc (and look at it's code) for more 
+detail on it.
 
 ## How to Use
 
@@ -18,5 +21,6 @@ npm install --save @dreamworld/pwa-helpers
 ### Use
 ```html
   <focusable-item>
+    <!-- Your content goes Here -->
   </focusable-item>
 ```
