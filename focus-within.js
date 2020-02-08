@@ -27,11 +27,10 @@ export const focusWithin = (baseElement) => class extends baseElement {
     super.connectedCallback && super.connectedCallback();
     let bowser = Bowser.getParser(window.navigator.userAgent);
     let __browserName = bowser.getBrowserName();
-    if (__browserName !== 'Internet Explorer' && __browserName !== 'Microsoft Edge') {
-      return;
+    let __browserVersion = bowser.getBrowserVersion();
+    if (__browserName == 'Internet Explorer' ||  (__browserName == 'Microsoft Edge' && window.parseInt(__browserVersion) <= 18)) {
+      this._bindFocusEvents();
     }
-
-    this._bindFocusEvents();
   }
 
   disconnectedCallback() {
