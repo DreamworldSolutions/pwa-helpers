@@ -1,9 +1,11 @@
 # focus-within
 
 There are 2 problems in Microsoft IE/Edge:
+
 1. For WebComponents, `:host(:focus)` CSS doesn't work. Note:: `:focus` css works at other places (other than `:host`)
 2. The `:focus-within` is not supported in `edge/ie` browser. This is in general either used with `:host` or not.
 
+***Note:: These problems are solved with the latest chromium version of Edge.***
 
 So this mixin provides solutions to the above CSS problems in `edge/ie` browser. It sets `focus` and `focus-within` attributes on Host element, for IE/Edge browser. So, we can write CSS based on the host attribute.
 
