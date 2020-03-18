@@ -31,10 +31,15 @@ export const connect = (store) => (baseElement) => class extends baseElement {
 
   /**
    * Log console error of `stateChanged`.
+   * Trigger `stateChanged` only when actual state is changed.
    */
   __stateChanged(state) {
     try {
+      if (this.__previousState === state) {
+        return;
+      }
       this.stateChanged(state);
+      this.__previousState = state;
     } catch (err) {
       console.error(err);
     }
