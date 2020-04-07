@@ -76,7 +76,6 @@ export const focusWithin = (baseElement) => class extends baseElement {
    * @protected
    */
   _setFocus() {
-    console.log('focus-within: _setFocus triggered');
     this._focus = true;
     this._setFocusWithin();
   }
@@ -90,11 +89,9 @@ export const focusWithin = (baseElement) => class extends baseElement {
     if (this.blurAfterTimeout) {
       setTimeout(() => {
         this._focus = false;
-        console.log('focus-within: _removeFocus triggered after timeout.');
       }, 250);
     } else {
       this._focus = false;
-      console.log('focus-within: _removeFocus triggered');
     }
     this._removeFocusWithin();
   }
@@ -105,7 +102,6 @@ export const focusWithin = (baseElement) => class extends baseElement {
    */
   _setFocusWithin() {
     this._focusWithin = true;
-    console.log('focus-within: _setFocusWithin triggered');
   }
 
   /**
@@ -115,11 +111,9 @@ export const focusWithin = (baseElement) => class extends baseElement {
   _removeFocusWithin() {
     if (this.blurAfterTimeout) {
       setTimeout(() => {
-        console.log('focus-within: _removeFocusWithin triggered after timeout.');
         this._focusWithin = false;
       }, 250);
     } else {
-      console.log('focus-within: _removeFocusWithin triggered');
       this._focusWithin = false;
     }
     
