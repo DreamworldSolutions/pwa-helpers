@@ -7,6 +7,8 @@ export const focusWithin = (baseElement) => class extends baseElement {
     this._setFocusWithin = this._setFocusWithin.bind(this);
     this._removeFocus = this._removeFocus.bind(this);
     this._removeFocusWithin = this._removeFocusWithin.bind(this);
+    this._blurTimeoutId = null;
+    this._focusoutTimeoutId = null;
   }
 
   static get properties() {
@@ -34,8 +36,8 @@ export const focusWithin = (baseElement) => class extends baseElement {
     let __browserName = bowser.browser.name;
     let __browserVersion = bowser.version;
     const __osName = bowser.os.name;
-    
-    if ((__osName && __osName === 'iOS') || __browserName == 'Internet Explorer' ||  (__browserName == 'Microsoft Edge' && window.parseInt(__browserVersion) <= 18)) {
+
+    if (true || (__osName && __osName === 'iOS') || __browserName == 'Internet Explorer' || (__browserName == 'Microsoft Edge' && window.parseInt(__browserVersion) <= 18)) {
       this._bindFocusEvents();
     }
   }
@@ -54,7 +56,6 @@ export const focusWithin = (baseElement) => class extends baseElement {
     this.addEventListener('focusin', this._setFocusWithin);
     this.addEventListener('blur', this._removeFocus);
     this.addEventListener('focusout', this._removeFocusWithin);
-    
   }
 
   /**
@@ -75,8 +76,13 @@ export const focusWithin = (baseElement) => class extends baseElement {
    * Set `_focusWithin` as a `true`.
    * @protected
    */
-  _setFocus() {
-    console.log('focus-within: _setFocus triggered');
+  _setFocus(e) {
+    if(e){
+      console.log('focus')
+    }
+    if (this._blurTimeoutId) {
+      clearTimeout(this._blurTimeoutId);
+    }
     this._focus = true;
     this._setFocusWithin();
   }
@@ -86,15 +92,17 @@ export const focusWithin = (baseElement) => class extends baseElement {
    * Set `_focusWithin` as a `false`.
    * @protected
    */
-  _removeFocus() {
+  _removeFocus(e) {
+    if(e){
+      console.log('blur');
+    }
     if (this.blurAfterTimeout) {
-      setTimeout(() => {
+      this._blurTimeoutId = setTimeout(() => {
         this._focus = false;
-        console.log('focus-within: _removeFocus triggered after timeout.');
+        this._blurTimeoutId = null;
       }, 250);
     } else {
       this._focus = false;
-      console.log('focus-within: _removeFocus triggered');
     }
     this._removeFocusWithin();
   }
@@ -103,25 +111,36 @@ export const focusWithin = (baseElement) => class extends baseElement {
    * Set `_focusWithin` as a `true`.
    * @protected
    */
-  _setFocusWithin() {
+  _setFocusWithin(e) {
+    if(e){
+      console.log('focusin');
+    } else{
+      console.log('manually focusin after focus');
+    }
+    if (this._focusoutTimeoutId) {
+      clearTimeout(this._focusoutTimeoutId);
+    }
     this._focusWithin = true;
-    console.log('focus-within: _setFocusWithin triggered');
   }
 
   /**
    * Set `_focusWithin` as a `false`.
    * @protected
    */
-  _removeFocusWithin() {
+  _removeFocusWithin(e) {
+    if(e){
+      console.log('focusout');
+    } else{
+      console.log('manually focusout after blur');
+    }
     if (this.blurAfterTimeout) {
-      setTimeout(() => {
-        console.log('focus-within: _removeFocusWithin triggered after timeout.');
+      this._focusoutTimeoutId = setTimeout(() => {
         this._focusWithin = false;
+        this._focusoutTimeoutId = null;
       }, 250);
     } else {
-      console.log('focus-within: _removeFocusWithin triggered');
       this._focusWithin = false;
     }
-    
+
   }
 }
