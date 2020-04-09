@@ -24,7 +24,20 @@ export const focusWithin = (baseElement) => class extends baseElement {
       _focusWithin: { type: Boolean, reflect: true, attribute: 'focus-within' },
 
       /**
-       * When it's `true`, trigger blur/focusout handler after timeout.
+       * When `true`  the work done on blur/focusout handler is to be delayed by 
+       * 250 ms. 
+       * 
+       * This feature is created initially to solve an issue with iOS 13.4. 
+       * Exact issue was as follows:
+       * - There is an mwc-button in the shadow root of the element.
+       * - That button becomes visible only when the element is focused.
+       * - Due to this issue, click of the button doesn't work. Because, when 
+       * user clicks on the button, focus is lost (navigated to the 'body')
+       * and as a result button becomes hidden (or DOM is destroyed) before the
+       * tap/click event was completed. 
+       * 
+       * This issue can be solved if the focus related attribute is removed 
+       * after some delay.
        */
       blurAfterTimeout: { type: Boolean }
     };
