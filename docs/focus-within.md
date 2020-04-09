@@ -16,6 +16,9 @@ This selector is useful, to take a common example, for highlighting an entire `<
 
 More information on [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-within).
 
+> Recently we have noticed that this is needed for all the browsers running on
+>  iOS 13.4. So, this is auto-enabled for iOS as well.
+
 
 ## How to use
 
