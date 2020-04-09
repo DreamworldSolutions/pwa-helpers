@@ -50,7 +50,9 @@ export const focusWithin = (baseElement) => class extends baseElement {
     let __browserVersion = bowser.version;
     const __osName = bowser.os.name;
 
-    if ((__osName && __osName === 'iOS') || __browserName == 'Internet Explorer' || (__browserName == 'Microsoft Edge' && window.parseInt(__browserVersion) <= 18)) {
+    if ((__osName && __osName === 'iOS') 
+        || __browserName == 'Internet Explorer' 
+        || (__browserName == 'Microsoft Edge' && window.parseInt(__browserVersion) <= 18)) {
       this._bindFocusEvents();
     }
   }
