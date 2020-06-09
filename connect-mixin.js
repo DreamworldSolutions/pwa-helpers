@@ -1,8 +1,13 @@
-
+import debounce from 'lodash-es/debounce';
 /**
   This is a JavaScript mixin that you can use to connect a Custom Element base
   class to a Redux store. The `stateChanged(state)` method will be called when
   the state is updated.
+
+  When custom element is extended from `PageViewElement`, 
+  The `stateChanged(state)` method will be called when `active` property set to `true` as well.
+
+  The `stateChanged(state`) method will be triggered in 50 ms of debounce time to prevent multiple call.
 
   Example:
 
@@ -16,11 +21,12 @@
 */
 export const connect = (store) => (baseElement) => class extends baseElement {
   connectedCallback() {
-      if (super.connectedCallback) {
-          super.connectedCallback();
-      }
-      this._storeUnsubscribe = store.subscribe(() => this.__stateChanged(store.getState()));
-      this.__stateChanged(store.getState());
+    if (super.connectedCallback) {
+        super.connectedCallback();
+    }
+    this._debounceStateChanged = debounce(this.__stateChanged, 50);
+    this._storeUnsubscribe = store.subscribe(() => this._debounceStateChanged(store.getState()));
+    this._debounceStateChanged(store.getState());
   }
   disconnectedCallback() {
       this._storeUnsubscribe();
@@ -29,15 +35,38 @@ export const connect = (store) => (baseElement) => class extends baseElement {
       }
   }
 
+    /**
+   * Setter of active property.
+   */
+  set active(val) {
+    let oldValue = this._active;
+    if(val === oldValue) {
+      return;
+    }
+
+    this._active = val;
+    this.requestUpdate('active', oldValue);
+    this.isConnected && this._debounceStateChanged && this._debounceStateChanged(store.getState());
+  }
+
+  /**
+   * Getter of active property.
+   */
+  get active() {
+    return this._active;
+  }
+
   /**
    * Log console error of `stateChanged`.
-   * Trigger `stateChanged` only when actual state is changed.
+   * Trigger `stateChanged` only when actual state is changed & element is active.
+   * When element is not extended from `pageViewElement`, then does not consider `active` property.
    */
   __stateChanged(state) {
     try {
-      if (this.__previousState === state) {
+      if (this.__previousState === state || (this._extendFromPageView && !this.active)) {
         return;
       }
+      
       this.stateChanged(state);
       this.__previousState = state;
     } catch (err) {
