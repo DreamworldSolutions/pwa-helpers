@@ -118,13 +118,25 @@ export const focusWithin = (baseElement) => class extends baseElement {
 
   /**
    * Set `_focusWithin` as a `true`.
+   * When focused element is removed, triggers `_removeFocus`.
    * @protected
    */
-  _setFocusWithin() {
+  _setFocusWithin(e) {
     if (this._focusoutTimeoutId) {
       clearTimeout(this._focusoutTimeoutId);
     }
     this._focusWithin = true;
+    const target = e && e.composedPath() && e.composedPath()[0];
+    if (target) {
+      let intervalId = setInterval(() => {
+        if (!target.isConnected) {
+          this._removeFocus();
+          clearInterval(intervalId);
+          console.log('focus-within: focus removed because focused child node is removed.')
+          return;
+        }
+      }, 200);
+    }
   }
 
   /**
