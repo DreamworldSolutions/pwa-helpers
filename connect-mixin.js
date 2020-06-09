@@ -1,8 +1,9 @@
-
 /**
   This is a JavaScript mixin that you can use to connect a Custom Element base
   class to a Redux store. The `stateChanged(state)` method will be called when
   the state is updated.
+
+  The `stateChanged(state)` method will be called when `active` property set to `true` as well.
 
   Example:
 
@@ -16,11 +17,11 @@
 */
 export const connect = (store) => (baseElement) => class extends baseElement {
   connectedCallback() {
-      if (super.connectedCallback) {
-          super.connectedCallback();
-      }
-      this._storeUnsubscribe = store.subscribe(() => this.__stateChanged(store.getState()));
-      this.__stateChanged(store.getState());
+    if (super.connectedCallback) {
+        super.connectedCallback();
+    }
+    this._storeUnsubscribe = store.subscribe(() => this.__stateChanged(store.getState()));
+    this.__stateChanged(store.getState());
   }
   disconnectedCallback() {
       this._storeUnsubscribe();
@@ -29,15 +30,37 @@ export const connect = (store) => (baseElement) => class extends baseElement {
       }
   }
 
+    /**
+   * Setter of active property.
+   */
+  set active(val) {
+    let oldValue = this._active;
+    if(val === oldValue) {
+      return;
+    }
+
+    this._active = val;
+    this.requestUpdate('active', oldValue);
+    this.isConnected && this.__stateChanged(store.getState());
+  }
+
+  /**
+   * Getter of active property.
+   */
+  get active() {
+    return this._active;
+  }
+
   /**
    * Log console error of `stateChanged`.
-   * Trigger `stateChanged` only when actual state is changed.
+   * Trigger `stateChanged` only when actual state is changed & active property is `true`
    */
   __stateChanged(state) {
     try {
-      if (this.__previousState === state) {
+      if (this.__previousState === state || (this.active === false)) {
         return;
       }
+      
       this.stateChanged(state);
       this.__previousState = state;
     } catch (err) {
