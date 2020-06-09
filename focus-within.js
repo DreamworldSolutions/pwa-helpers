@@ -120,7 +120,17 @@ export const focusWithin = (baseElement) => class extends baseElement {
    * Set `_focusWithin` as a `true`.
    * @protected
    */
-  _setFocusWithin() {
+  _setFocusWithin(e) {
+    const target = e && e.composedPath() && e.composedPath()[0];
+    if (target) {
+      setTimeout(() => {
+        if (!target.isConnected) {
+          this._removeFocus();
+          return;
+        }
+      })
+    }
+    
     if (this._focusoutTimeoutId) {
       clearTimeout(this._focusoutTimeoutId);
     }
