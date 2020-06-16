@@ -54,6 +54,7 @@ export const connect = (store) => (baseElement) => class extends baseElement {
   /**
    * Log console error of `stateChanged`.
    * Trigger `stateChanged` only when actual state is changed & active property is `true`
+   * When `active` property is not defined it will not prevent `stateChanged` call unless state is not changed.
    */
   __stateChanged(state) {
     try {
