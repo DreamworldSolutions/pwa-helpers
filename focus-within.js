@@ -9,6 +9,7 @@ export const focusWithin = (baseElement) => class extends baseElement {
     this._removeFocusWithin = this._removeFocusWithin.bind(this);
     this._blurTimeoutId = null;
     this._focusoutTimeoutId = null;
+    this._focusWithinIntervalId = null;
   }
 
   static get properties() {
@@ -126,17 +127,21 @@ export const focusWithin = (baseElement) => class extends baseElement {
       clearTimeout(this._focusoutTimeoutId);
     }
     this._focusWithin = true;
-    const target = e && e.composedPath() && e.composedPath()[0];
-    if (target) {
-      let intervalId = setInterval(() => {
-        if (!target.isConnected) {
-          this._removeFocus();
-          clearInterval(intervalId);
-          console.log('focus-within: focus removed because focused child node is removed.')
-          return;
-        }
-      }, 200);
+
+    if (this._focusWithinIntervalId) {
+      clearInterval(this._focusWithinIntervalId);
+      this._focusWithinIntervalId = null;
     }
+    
+    this._focusWithinIntervalId = setInterval(() => {
+      if (!this.shadowRoot.activeElement) {
+        this._removeFocus();
+        clearInterval(this._focusWithinIntervalId);
+        this._focusWithinIntervalId = null;
+        console.log('focus-within: focus removed because there is no activeElement.')
+        return;
+      }
+    }, 200);
   }
 
   /**
