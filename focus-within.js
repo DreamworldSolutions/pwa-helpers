@@ -43,6 +43,30 @@ export const focusWithin = (baseElement) => class extends baseElement {
     };
   }
 
+  /**
+   * When current focused element is detached, removes focus.
+   */
+  set _currentFocusedElement(val) {
+    const oldValue = this.__currentFocusedElement;
+    if(val === oldValue) {
+      return;
+    }
+    this._detachObserverIntervalHandle && clearInterval(this._detachObserverIntervalHandle);
+    
+    if (val) {
+      this._detachObserverIntervalHandle = window.setInterval(() => {
+        if (!val.isConnected) {
+          this._removeFocus();
+        }
+      }, 300);
+    }
+    this.__currentFocusedElement = val;
+  }
+
+  get _currentFocusedElement() {
+    return this.__currentFocusedElement;
+  }
+
   connectedCallback() {
     super.connectedCallback && super.connectedCallback();
     let bowser = Bowser.parse(window.navigator.userAgent);
@@ -60,6 +84,7 @@ export const focusWithin = (baseElement) => class extends baseElement {
   disconnectedCallback() {
     this._unbindFocusEvents();
     super.disconnectedCallback && super.disconnectedCallback();
+    this._currentFocusedElement = null;
   }
 
   /**
@@ -117,14 +142,16 @@ export const focusWithin = (baseElement) => class extends baseElement {
   }
 
   /**
-   * Set `_focusWithin` as a `true`.
+   * Sets `_focusWithin` as a `true`.
+   * Sets `_currentFocusedElement`
    * @protected
    */
-  _setFocusWithin() {
+  _setFocusWithin(e) {
     if (this._focusoutTimeoutId) {
       clearTimeout(this._focusoutTimeoutId);
     }
     this._focusWithin = true;
+    this._currentFocusedElement = e && e.composedPath() && e.composedPath()[0];
   }
 
   /**
@@ -140,6 +167,6 @@ export const focusWithin = (baseElement) => class extends baseElement {
     } else {
       this._focusWithin = false;
     }
-
+    this._currentFocusedElement = null;
   }
 }
