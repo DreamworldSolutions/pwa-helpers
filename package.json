@@ -15,13 +15,11 @@
   },
   "dependencies": {
     "bowser": "^2.8.1",
-    "lit-element": "^2.2.1"
+    "lit-element": "^2.2.1",
+    "lodash-es": "^4.17.15"
   },
   "devDependencies": {
-    "semantic-release": "16.0.0-beta.23"
-  },
-  "resolutions": {
-    "@semantic-release/npm": "5.2.0-beta.5"
+    "semantic-release": "17.0.8"
   },
   "author": "",
   "license": "ISC",
