@@ -70,6 +70,8 @@ When disabled, it just exports [LitElement](https://lit-element.polymer-project.
 
 - [Mandatory and Constant property observation](#mandatory-and-constant-property-observation)
 
+- [Avoid extra rendering](#avoid-extra-rendering)
+
   
   
 
@@ -157,3 +159,18 @@ this.constantProps = ['taskId', 'list'];
 
 }
 ```
+
+### Avoid extra rendering
+ Overriding lit-element [shouldUpdate](https://lit-element.polymer-project.org/guide/lifecycle#shouldupdate) method to avoid unnecessary rendering.
+
+ - When element is disconnected
+ - When element is in-active
+
+#### When element is disconnected
+ - Element is connected or disconnected using [element.isConnected](https://developer.mozilla.org/en-US/docs/Web/API/Node/isConnected) read-only property
+
+#### When element is in-active
+ - This mixin provide a `active` property to manage a element active or in-active status.
+ - The `active` property default value is `true`, So default element status active.
+ - Current element status is active and then set `active` as a `false` then the element is at-least render one-time because it's children are also in-active.
+ 

@@ -63,6 +63,22 @@ class DwLitElement extends PolymerLitElement {
     }, 0);
   }
 
+  /**
+    * Declared properties and their corresponding attributes
+    */
+  static get properties() {
+    return {
+
+      /**
+       * Reperesent element is active or not.
+       * It's mainly used element rendering or not.
+       * The default value is true.
+       * Property to set false then the element is at-least render one-time because it's children is also in-active.
+       */
+      active: { type: Boolean, reflect: true }
+    };
+  }
+
   _initUpdatesCount() {
     let nodeName = this.nodeName;
     //Set default value for connected component's updated event
@@ -160,6 +176,27 @@ class DwLitElement extends PolymerLitElement {
   disconnectedCallback() {
     this._cleanupUpdatesCount();
     super.disconnectedCallback();
+  }
+
+  /**
+   * Avoid extra rendering.
+   *  - When elements is disconnected.
+   *  - When elements is in-active
+   * @override lit-element should update method(https://lit-element.polymer-project.org/guide/lifecycle#shouldupdate)
+   */
+  shouldUpdate(changedProps) {
+    //The current element is disconnected.
+    if(!this.isConnected) {
+      return false;
+    }
+
+    //The current element is in-active then at-least current element childrens are also in-active.
+    if(changedProps.has('active') && changedProps.get('active') === true && this.active === false) {
+      return true;
+    }
+
+    //Current element is active.
+    return this.active;
   }
 
   updated(changedProps) {
