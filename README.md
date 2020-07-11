@@ -6,3 +6,4 @@ PWA (and LitElement) helper components
 - [button focus](docs/button-focus.md)
 - [focusable](docs/focusable.md)
 - [focusable item](docs/focusable-item.md)
+- [LitElement](docs/lit-element.md)
