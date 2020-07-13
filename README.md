@@ -7,3 +7,4 @@ PWA (and LitElement) helper components
 - [focusable](docs/focusable.md)
 - [focusable item](docs/focusable-item.md)
 - [LitElement](docs/lit-element.md)
+- [Page metadata](docs/page-metadata.md)
