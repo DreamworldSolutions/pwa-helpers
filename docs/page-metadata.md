@@ -25,7 +25,7 @@ import { LitElement } from 'lit-element'
 class Dwpage extends pageMetadata(LitElement) {}
 ```
 
-##### You must have to override `_getPageMetadata` return your page metadata.
+##### You must have to override `_getPageMetadata` method to return your page metadata.
 
 ```javascript
 //Import page-metadata mixin
