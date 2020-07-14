@@ -55,6 +55,6 @@ class DwPage extends pageMetadata(LitElement) {
 
 This mixin will work on `updated` life-cycle methods of `LitElement`.
 
-When current page metadata is defined in `_getPageMetadata` and previous and new page metadata is not same then page is active then change page metadata using [updateMetadata](https://github.com/polymer/pwa-helpers#metadatajs) method of lit-element pwa-helapers.
+When current page metadata is defined in `_getPageMetadata` and previous and new page metadata is not same and page is active then change page metadata change using [updateMetadata](https://github.com/polymer/pwa-helpers#metadatajs) method of lit-element pwa-helapers.
 
-When page is in-active then reset private instance property `__pageMetaData` is reset, because next page is active then set page metadata.
+When page is in-active then reset private instance property `__pageMetaData` is reset, because next time page is active then set page metadata.
