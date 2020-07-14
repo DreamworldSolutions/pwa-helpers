@@ -53,9 +53,8 @@ class DwPage extends pageMetadata(LitElement) {
 
 ## How it works
 
-This mixin will work on `firstUpdated` or `updated` life-cycle methods of `LitElement` and when `attributeChangedCallback` callback is called.
+This mixin will work on `updated` life-cycle methods of `LitElement`.
 
-When current item is disabled then remove tabindex attribute from host-element using `removeAttribute` (HTML DOM method).
-Otherwise, set tabindex attribute as a `0` to item using `setAttribute` HTML DOM method.
+When current page metadata is defined in `_getPageMetadata` and previous and new page metadata is not same then page is active then change page metadata using [updateMetadata](https://github.com/polymer/pwa-helpers#metadatajs) method of lit-element pwa-helapers.
 
-## methods
+When page is in-active then reset private instance property `__pageMetaData` is reset, because next page is active then set page metadata.
