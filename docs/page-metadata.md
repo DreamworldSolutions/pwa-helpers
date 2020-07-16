@@ -38,7 +38,8 @@ import { LitElement } from 'lit-element'
 class DwPage extends pageMetadata(LitElement) {
 
   /**
-   * You must have to override `_getPageMetadata` this method to return your page metadata.
+   * Override this method to return your page metadata.
+   * If not overriden, this behavior doesn't work, silently. And won't log any error either.
    */
   _getPageMetadata () {
     return {
