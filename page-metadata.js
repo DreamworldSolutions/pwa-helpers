@@ -13,11 +13,17 @@ export const pageMetadata = (baseElement) => class extends baseElement {
     this.__pageMetaData = undefined;
   }
 
+  static get properties() {
+    return {
+      active: { type: Boolean, reflect: true }
+    };
+  }
+
   updated(changedProps) {
     super.updated && super.updated(changedProps);
 
     //when page is in-active then previous page metadata value is also reset.
-    if(changedProps.has('active') && this.active === false) {
+    if(this.active === false) {
       this.__pageMetaData = undefined;
     }
 
