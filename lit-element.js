@@ -60,7 +60,10 @@ class DwLitElement extends PolymerLitElement {
     }
     
     this._setViewId();
-    this._initUpdatesCount();
+
+    if (config.debugRender) {
+      this._initUpdatesCount();
+    }
 
     //Validate mandatory properties after timeout because of if fragment is loaded using dynamic import then defined 
     //defined property value will be available after zero timeout in connected callback 
@@ -180,7 +183,7 @@ class DwLitElement extends PolymerLitElement {
   }
 
   disconnectedCallback() {
-    if (config && !config.disabled) {
+    if (config && !config.disabled && config.debugRender) {
       this._cleanupUpdatesCount();
     }
     super.disconnectedCallback();
@@ -212,7 +215,11 @@ class DwLitElement extends PolymerLitElement {
       return;
     }
     this._warnConstProps(changedProps);
-    this._incrUpdatesCount();
+    
+    if (config && config.debugRender) {
+      this._incrUpdatesCount();
+    }
+
     if (config && config.debugPropChanges) {
       this._logChangedProps(changedProps);
     }
