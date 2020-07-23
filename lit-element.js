@@ -58,7 +58,7 @@ class DwLitElement extends PolymerLitElement {
     if (!config || (config && config.disabled)) {
       return;
     }
-    
+
     this._setViewId();
 
     if (config.debugRender) {
@@ -132,7 +132,6 @@ class DwLitElement extends PolymerLitElement {
     }
   }
 
-
   _cleanupUpdatesCount() {
     let nodeName = this.nodeName;
     if (updatesCount && updatesCount[nodeName] && updatesCount[nodeName][this._viewId]) {
@@ -197,12 +196,12 @@ class DwLitElement extends PolymerLitElement {
    */
   shouldUpdate(changedProps) {
     //The current element is disconnected.
-    if(!this.isConnected) {
+    if (!this.isConnected) {
       return false;
     }
 
     //The current element is in-active then at-least current element childrens are also in-active.
-    if(changedProps.has('active') && changedProps.get('active') === true && this.active === false) {
+    if (changedProps.has('active') && changedProps.get('active') === true && this.active === false) {
       return true;
     }
 
@@ -215,7 +214,7 @@ class DwLitElement extends PolymerLitElement {
       return;
     }
     this._warnConstProps(changedProps);
-    
+
     if (config && config.debugRender) {
       this._incrUpdatesCount();
     }
