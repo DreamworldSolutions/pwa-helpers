@@ -55,13 +55,9 @@ class DwLitElement extends PolymerLitElement {
     super.connectedCallback();
     this.active = true;
 
-    if (!config || (config && config.disabled)) {
-      return;
-    }
-
     this._setViewId();
 
-    if (config.debugRender) {
+    if (config && config.debugRender) {
       this._initUpdatesCount();
     }
 
@@ -182,7 +178,7 @@ class DwLitElement extends PolymerLitElement {
   }
 
   disconnectedCallback() {
-    if (config && !config.disabled && config.debugRender) {
+    if (config && config.debugRender) {
       this._cleanupUpdatesCount();
     }
     super.disconnectedCallback();
@@ -210,9 +206,6 @@ class DwLitElement extends PolymerLitElement {
   }
 
   updated(changedProps) {
-    if (!config || (config && config.disabled)) {
-      return;
-    }
     this._warnConstProps(changedProps);
 
     if (config && config.debugRender) {
@@ -252,4 +245,4 @@ if (!config || !config.disabled) {
   window.LitElement = DwLitElement;
 }
 
-export const LitElement = DwLitElement;
+export const LitElement = (config && config.disabled) ? PolymerLitElement : DwLitElement; 
