@@ -53,11 +53,14 @@ class DwLitElement extends PolymerLitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this._setViewId();
-    this._initUpdatesCount();
-
     this.active = true;
-    
+
+    this._setViewId();
+
+    if (config && config.debugRender) {
+      this._initUpdatesCount();
+    }
+
     //Validate mandatory properties after timeout because of if fragment is loaded using dynamic import then defined 
     //defined property value will be available after zero timeout in connected callback 
     window.setTimeout(() => {
@@ -125,7 +128,6 @@ class DwLitElement extends PolymerLitElement {
     }
   }
 
-
   _cleanupUpdatesCount() {
     let nodeName = this.nodeName;
     if (updatesCount && updatesCount[nodeName] && updatesCount[nodeName][this._viewId]) {
@@ -176,7 +178,9 @@ class DwLitElement extends PolymerLitElement {
   }
 
   disconnectedCallback() {
-    this._cleanupUpdatesCount();
+    if (config && config.debugRender) {
+      this._cleanupUpdatesCount();
+    }
     super.disconnectedCallback();
   }
 
@@ -188,12 +192,12 @@ class DwLitElement extends PolymerLitElement {
    */
   shouldUpdate(changedProps) {
     //The current element is disconnected.
-    if(!this.isConnected) {
+    if (!this.isConnected) {
       return false;
     }
 
     //The current element is in-active then at-least current element childrens are also in-active.
-    if(changedProps.has('active') && changedProps.get('active') === true && this.active === false) {
+    if (changedProps.has('active') && changedProps.get('active') === true && this.active === false) {
       return true;
     }
 
@@ -203,7 +207,11 @@ class DwLitElement extends PolymerLitElement {
 
   updated(changedProps) {
     this._warnConstProps(changedProps);
-    this._incrUpdatesCount();
+
+    if (config && config.debugRender) {
+      this._incrUpdatesCount();
+    }
+
     if (config && config.debugPropChanges) {
       this._logChangedProps(changedProps);
     }
@@ -237,4 +245,4 @@ if (!config || !config.disabled) {
   window.LitElement = DwLitElement;
 }
 
-export const LitElement = (config && config.disabled) ? PolymerLitElement : DwLitElement;
+export const LitElement = (config && config.disabled) ? PolymerLitElement : DwLitElement; 
