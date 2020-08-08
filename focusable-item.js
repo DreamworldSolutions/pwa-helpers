@@ -1,4 +1,5 @@
-import { LitElement, html, css } from 'lit-element';
+import { html, css } from 'lit-element';
+import { LitElement }  from './lit-element.js';
 import { focusable } from './focusable';
 
 /**

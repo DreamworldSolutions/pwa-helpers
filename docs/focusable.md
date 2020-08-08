@@ -17,7 +17,7 @@ npm install --save @dreamworld/pwa-helpers
 
 ### Import
 ```javascript
-import { LitElement, html, css } from 'lit-element';
+import { LitElement, html, css } from '@dreamworld/pwa-helpers/lit-element';
 import { focusable } from './focusable';
 ```
 

@@ -22,7 +22,7 @@ npm install --save @dreamworld/pwa-helpers
 import {buttonFocus} from '@dreamworld/pwa-helpers';
 	
 //Import lit-element class
-import {LitElement} from 'lit-element';
+import {LitElement} from '@dreamworld/pwa-helpers/lit-element';
 	
 //Apply focus-within mixin to lit-element class
 class DwButton extends buttonFocus(LitElement) {}
@@ -35,7 +35,7 @@ class DwButton extends buttonFocus(LitElement) {}
 import {buttonFocus} from '@dreamworld/pwa-helpers';
 	
 //Import lit-element class
-import {LitElement} from 'lit-element';
+import {LitElement} from '@dreamworld/pwa-helpers/lit-element';
 
 //Apply focus-within mixin to lit-element class
 class DwButton extends buttonFocus(LitElement) {
