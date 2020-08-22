@@ -12,7 +12,7 @@ It was initially developed to debug any performance issues in the element due to
 
 ```javascript
 
-import { LitElement } from  "@dw/pwa-helpers/lit-element";
+import { LitElement } from  "@dreamworld/pwa-helpers/lit-element.js";
 
 class  MyView  extends  LitElement {
 

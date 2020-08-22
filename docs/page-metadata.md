@@ -19,7 +19,7 @@ npm install --save @dreamworld/pwa-helpers
 import pageMetadata from '@dreamworld/pwa-helpers/page-metadata.js'
 
 //Import lit-element class
-import { LitElement } from 'lit-element'
+import { LitElement } from '@dreamworld/pwa-helpers/lit-element.js'
 
 //Apply page-metadata mixin to lit-element class
 class Dwpage extends pageMetadata(LitElement) {}
@@ -32,7 +32,7 @@ class Dwpage extends pageMetadata(LitElement) {}
 import pageMetadata from '@dreamworld/pwa-helpers/page-metadata.js'
 
 //Import lit-element class
-import { LitElement } from 'lit-element'
+import { LitElement } from '@dreamworld/pwa-helpers/lit-element.js'
 
 //Apply focus-within mixin to lit-element class
 class DwPage extends pageMetadata(LitElement) {
