@@ -63,9 +63,9 @@ class DwLitElement extends PolymerLitElement {
 
     //Validate mandatory properties after timeout because of if fragment is loaded using dynamic import then defined 
     //defined property value will be available after zero timeout in connected callback 
-    window.setTimeout(() => {
-      this._validateMandatoryProps();
-    }, 0);
+    // window.setTimeout(() => {
+    //   this._validateMandatoryProps();
+    // }, 0);
   }
 
   /**
