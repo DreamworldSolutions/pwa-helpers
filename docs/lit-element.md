@@ -23,7 +23,7 @@ class  MyView  extends  LitElement {
 
 ## Features
 
-### Lock scroll while element is inactive.
+### Lock scroll while element is inactive. (Note: It only works for the pages which has not it's owned scroll but `document`s scroll.)
  - To enable this feature sets `enableScrollLock` property to `true`
  - When this is enabled & element becomes inactive, scroll will be locked for this element & on active scroll will be unlocked &    restored to it's previous position.
 
