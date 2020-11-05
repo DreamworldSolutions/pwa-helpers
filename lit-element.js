@@ -225,6 +225,7 @@ class DwLitElement extends PolymerLitElement {
     if (this.enableScrollLock && changedProps.has('active') && changedProps.get('active') !== undefined) {
       if (!this.active) {
         this._lastScrollPos = document.scrollingElement.scrollTop;
+        this._lastPosition = getComputedStyle(this).position;
         this.style.position = 'fixed';
         this.style.height = '100vh';
         this.style.width = '100%';
@@ -232,7 +233,7 @@ class DwLitElement extends PolymerLitElement {
         this.scrollTop = this._lastScrollPos;
       } else {
         document.scrollingElement.scrollTop = this._lastScrollPos;
-        this.style.position = 'static';
+        this.style.position = this._lastPosition;
         this.style.height = 'auto';
         this.style.overflow = 'unset';
       }
