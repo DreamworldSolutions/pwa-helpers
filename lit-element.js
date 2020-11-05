@@ -80,7 +80,13 @@ class DwLitElement extends PolymerLitElement {
        * The default value is true.
        * Property to set false then the element is at-least render one-time because it's children is also in-active.
        */
-      active: { type: Boolean, reflect: true }
+      active: { type: Boolean, reflect: true },
+
+      /**
+       * Input property. 
+       * When it's `true` enable scrollLock feature.
+       */
+      enableScrollLock: { type: Boolean }
     };
   }
 
@@ -214,6 +220,22 @@ class DwLitElement extends PolymerLitElement {
 
     if (config && config.debugPropChanges) {
       this._logChangedProps(changedProps);
+    }
+
+    if (this.enableScrollLock && changedProps.has('active') && changedProps.get('active') !== undefined) {
+      if (!this.active) {
+        this._lastScrollPos = document.scrollingElement.scrollTop;
+        this.style.position = 'fixed';
+        this.style.height = '100vh';
+        this.style.width = '100%';
+        this.style.overflow = 'hidden';
+        this.scrollTop = this._lastScrollPos;
+      } else {
+        document.scrollingElement.scrollTop = this._lastScrollPos;
+        this.style.position = 'static';
+        this.style.height = 'auto';
+        this.style.overflow = 'unset';
+      }
     }
   }
 
