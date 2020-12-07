@@ -120,13 +120,13 @@ export const focusWithin = (baseElement) => class extends baseElement {
    * Set `_focusWithin` as a `true`.
    * @protected
    */
-  _setFocus() {
+  _setFocus(e) {
     if (this._blurTimeoutId) {
       clearTimeout(this._blurTimeoutId);
     }
     this._focus = true;
     console.log("_setFocus ==> 1");
-    this._setFocusWithin();
+    this._setFocusWithin(e);
   }
 
   /**
