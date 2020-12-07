@@ -48,9 +48,9 @@ export const focusWithin = (baseElement) => class extends baseElement {
    */
   set _currentFocusedElement(val) {
     const oldValue = this.__currentFocusedElement;
-    console.log("_currentFocusedElement ==> 1", oldValue, val);
+    console.log("_currentFocusedElement ==> 1 ==> " + this._viewId , oldValue, val);
     if(val === oldValue) {
-      console.log("_currentFocusedElement ==> 2 ==> both are equal");
+      console.log("_currentFocusedElement ==> 2 ==> both are equal ==> " + this._viewId);
       return;
     }
     this._detachObserverIntervalHandle && clearInterval(this._detachObserverIntervalHandle);
@@ -58,12 +58,12 @@ export const focusWithin = (baseElement) => class extends baseElement {
     if (val) {
       this._detachObserverIntervalHandle = window.setInterval(() => {
         if (!val.isConnected) {
-          console.log("_currentFocusedElement ==> 3 ==> remove-focus");
+          console.log("_currentFocusedElement ==> 3 ==> remove-focus ==> " + this._viewId);
           this._removeFocus();
         }
       }, 300);
     }
-    console.log("_currentFocusedElement ==> 4");
+    console.log("_currentFocusedElement ==> 4 ==> " + this._viewId);
     this.__currentFocusedElement = val;
   }
 
@@ -125,8 +125,8 @@ export const focusWithin = (baseElement) => class extends baseElement {
       clearTimeout(this._blurTimeoutId);
     }
     this._focus = true;
-    console.log("_setFocus ==> 1");
     this._setFocusWithin(e);
+    console.log("_setFocus ==> 1 ==> " + this._viewId);
   }
 
   /**
@@ -136,13 +136,13 @@ export const focusWithin = (baseElement) => class extends baseElement {
    */
   _removeFocus() {
     if (this.blurAfterTimeout) {
-      console.log("_removeFocus ==> 1");
+      console.log("_removeFocus ==> 1 ==> " + this._viewId);
       this._blurTimeoutId = setTimeout(() => {
         this._focus = false;
         this._blurTimeoutId = null;
       }, 250);
     } else {
-      console.log("_removeFocus ==> 2");
+      console.log("_removeFocus ==> 2 ==> " + this._viewId);
       this._focus = false;
     }
     this._removeFocusWithin();
@@ -159,7 +159,7 @@ export const focusWithin = (baseElement) => class extends baseElement {
     }
     this._focusWithin = true;
     this._currentFocusedElement = e && e.composedPath() && e.composedPath()[0];
-    console.log("_setFocusWithin ==>", this._currentFocusedElement);
+    console.log("_setFocusWithin ==>" + this._viewId, this._currentFocusedElement);
   }
 
   /**
@@ -168,13 +168,13 @@ export const focusWithin = (baseElement) => class extends baseElement {
    */
   _removeFocusWithin() {
     if (this.blurAfterTimeout) {
-      console.log("_removeFocusWithin ==> 1");
+      console.log("_removeFocusWithin ==> 1 ==> " + this._viewId);
       this._focusoutTimeoutId = setTimeout(() => {
         this._focusWithin = false;
         this._focusoutTimeoutId = null;
       }, 250);
     } else {
-      console.log("_removeFocusWithin ==> 2");
+      console.log("_removeFocusWithin ==> 2 ==> " + this._viewId);
       this._focusWithin = false;
     }
     this._currentFocusedElement = null;
