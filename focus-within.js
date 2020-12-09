@@ -79,6 +79,7 @@ export const focusWithin = (baseElement) => class extends baseElement {
         || (__osName === 'macOS' && __browserName === 'Safari')
         || __browserName == 'Internet Explorer' 
         || (__browserName == 'Microsoft Edge' && window.parseInt(__browserVersion) <= 18)) {
+        console.log("connectedCallback", this.columnId, this.iconNumber);
       this._bindFocusEvents();
     }
   }
@@ -86,8 +87,8 @@ export const focusWithin = (baseElement) => class extends baseElement {
   disconnectedCallback() {
     this._unbindFocusEvents();
     super.disconnectedCallback && super.disconnectedCallback();
+    console.log("disconnectedCallback", this.columnId, this.iconNumber);
     this._currentFocusedElement = null;
-    console.log("disconnectedCallback ==> ", this.columnId, this.iconNumber);
   }
 
   /**
