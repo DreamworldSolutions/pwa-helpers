@@ -87,7 +87,7 @@ export const focusWithin = (baseElement) => class extends baseElement {
     this._unbindFocusEvents();
     super.disconnectedCallback && super.disconnectedCallback();
     this._currentFocusedElement = null;
-    console.log("disconnectedCallback", this._currentFocusedElement);
+    console.log("disconnectedCallback ==> ", this.columnId, this.iconNumber);
   }
 
   /**
