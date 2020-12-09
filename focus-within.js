@@ -56,10 +56,12 @@ export const focusWithin = (baseElement) => class extends baseElement {
     if (val) {
       this._detachObserverIntervalHandle = window.setInterval(() => {
         if (!val.isConnected) {
+          console.log("_currentFocusedElement ==> remove focus");
           this._removeFocus();
         }
       }, 300);
     }
+    
     this.__currentFocusedElement = val;
   }
 
@@ -85,6 +87,7 @@ export const focusWithin = (baseElement) => class extends baseElement {
     this._unbindFocusEvents();
     super.disconnectedCallback && super.disconnectedCallback();
     this._currentFocusedElement = null;
+    console.log("disconnectedCallback", this._currentFocusedElement);
   }
 
   /**
@@ -116,13 +119,14 @@ export const focusWithin = (baseElement) => class extends baseElement {
    * Set `_focusWithin` as a `true`.
    * @protected
    */
-  _setFocus() {
-    console.log("_setFocus "+ this.columnId);
+  _setFocus(e) {
+    console.log("_setFocus "+ this.columnId, this.iconNumber);
     if (this._blurTimeoutId) {
       clearTimeout(this._blurTimeoutId);
     }
     this._focus = true;
     this._setFocusWithin();
+    this._currentFocusedElement = e && e.composedPath() && e.composedPath()[0];
   }
 
   /**
@@ -131,7 +135,7 @@ export const focusWithin = (baseElement) => class extends baseElement {
    * @protected
    */
   _removeFocus() {
-    console.log("_removeFocus "+ this.columnId);
+    console.log("_removeFocus "+ this.columnId, this.iconNumber);
     if (this.blurAfterTimeout) {
       this._blurTimeoutId = setTimeout(() => {
         this._focus = false;
@@ -149,7 +153,7 @@ export const focusWithin = (baseElement) => class extends baseElement {
    * @protected
    */
   _setFocusWithin(e) {
-    console.log("_setFocusWithin "+ this.columnId);
+    console.log("_setFocusWithin "+ this.columnId, this.iconNumber);
     if (this._focusoutTimeoutId) {
       clearTimeout(this._focusoutTimeoutId);
     }
@@ -162,7 +166,7 @@ export const focusWithin = (baseElement) => class extends baseElement {
    * @protected
    */
   _removeFocusWithin() {
-    console.log("_removeFocusWithin "+ this.columnId);
+    console.log("_removeFocusWithin "+ this.columnId, this.iconNumber);
     if (this.blurAfterTimeout) {
       this._focusoutTimeoutId = setTimeout(() => {
         this._focusWithin = false;
