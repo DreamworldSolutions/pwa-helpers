@@ -79,7 +79,7 @@ export const focusWithin = (baseElement) => class extends baseElement {
         || (__osName === 'macOS' && __browserName === 'Safari')
         || __browserName == 'Internet Explorer' 
         || (__browserName == 'Microsoft Edge' && window.parseInt(__browserVersion) <= 18)) {
-        console.log("connectedCallback", this.columnId, this.iconNumber);
+        console.log("connectedCallback", this.columnId, this.iconNumber, this._viewId);
       this._bindFocusEvents();
     }
   }
@@ -87,7 +87,7 @@ export const focusWithin = (baseElement) => class extends baseElement {
   disconnectedCallback() {
     this._unbindFocusEvents();
     super.disconnectedCallback && super.disconnectedCallback();
-    console.log("disconnectedCallback", this.columnId, this.iconNumber);
+    console.log("disconnectedCallback", this.columnId, this.iconNumber, this._viewId);
     this._currentFocusedElement = null;
   }
 
@@ -121,7 +121,7 @@ export const focusWithin = (baseElement) => class extends baseElement {
    * @protected
    */
   _setFocus(e) {
-    console.log("focus ", this.columnId, this.iconNumber);
+    console.log("focus ", this.columnId, this.iconNumber, this._viewId);
     if (this._blurTimeoutId) {
       clearTimeout(this._blurTimeoutId);
     }
@@ -135,7 +135,7 @@ export const focusWithin = (baseElement) => class extends baseElement {
    * @protected
    */
   _removeFocus() {
-    console.log("blur ", this.columnId, this.iconNumber);
+    console.log("blur ", this.columnId, this.iconNumber, this._viewId);
     if (this.blurAfterTimeout) {
       this._blurTimeoutId = setTimeout(() => {
         this._focus = false;
@@ -153,7 +153,7 @@ export const focusWithin = (baseElement) => class extends baseElement {
    * @protected
    */
   _setFocusWithin(e) {
-    console.log("focusin ",this.columnId, this.iconNumber);
+    console.log("focusin ",this.columnId, this.iconNumber, this._viewId);
     if (this._focusoutTimeoutId) {
       clearTimeout(this._focusoutTimeoutId);
     }
@@ -166,7 +166,7 @@ export const focusWithin = (baseElement) => class extends baseElement {
    * @protected
    */
   _removeFocusWithin() {
-    console.log("focusout ", this.columnId, this.iconNumber);
+    console.log("focusout ", this.columnId, this.iconNumber, this._viewId);
     if (this.blurAfterTimeout) {
       this._focusoutTimeoutId = setTimeout(() => {
         this._focusWithin = false;
