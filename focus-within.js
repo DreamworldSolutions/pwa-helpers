@@ -7,6 +7,8 @@ export const focusWithin = (baseElement) => class extends baseElement {
     this._setFocusWithin = this._setFocusWithin.bind(this);
     this._removeFocus = this._removeFocus.bind(this);
     this._removeFocusWithin = this._removeFocusWithin.bind(this);
+    this._removeFocusCurrentItem = this._removeFocus.bind(this);
+    this._removeFocusWithinCurrentItem = this._removeFocusWithinCurrentItem.bind(this);
     this._blurTimeoutId = null;
     this._focusoutTimeoutId = null;
   }
@@ -72,16 +74,26 @@ export const focusWithin = (baseElement) => class extends baseElement {
 
   __bindRemoveFocusEventCurrenEl(el) {
     if(el) {
-      el.addEventListener('blur', this._removeFocus);
-      el.addEventListener('focusout', this._removeFocusWithin);
+      el.addEventListener('blur', this._removeFocusCurrentItem);
+      el.addEventListener('focusout', this._removeFocusWithinCurrentItem);
     }
   }
 
   __unbindRemoveFocusEventCurrenEl(el) {
     if(el) {
-      el.removeEventListener('blur', this._removeFocus);
-      el.removeEventListener('focusout', this._removeFocusWithin);
+      el.removeEventListener('blur', this._removeFocusCurrentItem);
+      el.removeEventListener('focusout', this._removeFocusWithinCurrentItem);
     }
+  }
+
+  _removeFocusCurrentItem() {
+    console.log("remove focus from current-item");
+    this._removeFocus();
+  }
+
+  _removeFocusWithinCurrentItem() {
+    console.log("remove focus-within from current-item");
+    this._removeFocusWithin();
   }
 
   connectedCallback() {
