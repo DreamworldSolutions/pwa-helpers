@@ -74,6 +74,7 @@ export const focusWithin = (baseElement) => class extends baseElement {
 
   __bindRemoveFocusEventCurrenEl(el) {
     if(el) {
+      console.log("bind blur and foucs-out event on current el");
       el.addEventListener('blur', this._removeFocusCurrentItem);
       el.addEventListener('focusout', this._removeFocusWithinCurrentItem);
     }
@@ -81,6 +82,7 @@ export const focusWithin = (baseElement) => class extends baseElement {
 
   __unbindRemoveFocusEventCurrenEl(el) {
     if(el) {
+      console.log("unbind blur and foucs-out event on current el");
       el.removeEventListener('blur', this._removeFocusCurrentItem);
       el.removeEventListener('focusout', this._removeFocusWithinCurrentItem);
     }
@@ -150,12 +152,12 @@ export const focusWithin = (baseElement) => class extends baseElement {
    * @protected
    */
   _setFocus(e) {
-    console.log("focus", this._viewId);
     if (this._blurTimeoutId) {
       clearTimeout(this._blurTimeoutId);
     }
     this._focus = true;
     this._currentFocusedElement = e && e.composedPath() && e.composedPath()[0];
+    console.log("focus", this._viewId, this._currentFocusedElement);
   }
 
   /**
@@ -181,12 +183,12 @@ export const focusWithin = (baseElement) => class extends baseElement {
    * @protected
    */
   _setFocusWithin(e) {
-    console.log("focus-in", this._viewId);
     if (this._focusoutTimeoutId) {
       clearTimeout(this._focusoutTimeoutId);
     }
     this._focusWithin = true;
     this._currentFocusedElement = e && e.composedPath() && e.composedPath()[0];
+    console.log("focus-in", this._viewId, this._currentFocusedElement);
   }
 
   /**
