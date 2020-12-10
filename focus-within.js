@@ -117,7 +117,7 @@ export const focusWithin = (baseElement) => class extends baseElement {
     this._currentFocusedElement = undefined;
     //Remove focus on disconnect.
     this._removeFocus();
-    thia._removeFocusWithin();
+    this._removeFocusWithin();
   }
 
   /**
