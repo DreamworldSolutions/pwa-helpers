@@ -159,6 +159,12 @@ export const focusWithin = (baseElement) => class extends baseElement {
     }
     this._focusWithin = true;
     this._currentFocusedElement = e && e.composedPath() && e.composedPath()[0];
+    console.log("_setFocusWithin", this._currentFocusedElement);
+    if(this._currentFocusedElement) {
+      this._currentFocusedElement.addEventListener('blur', ()=> {
+        console.log("blur ---- 2");
+      }, {once: true});
+    }
   }
 
   /**
