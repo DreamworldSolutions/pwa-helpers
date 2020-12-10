@@ -121,12 +121,12 @@ export const focusWithin = (baseElement) => class extends baseElement {
    * @protected
    */
   _setFocus(e) {
-    console.log("_setFocus "+ this.columnId, this.iconNumber);
+    console.log("focus ", this.columnId, this.iconNumber);
     if (this._blurTimeoutId) {
       clearTimeout(this._blurTimeoutId);
     }
     this._focus = true;
-    this._setFocusWithin(e);
+    // this._setFocusWithin(e);
   }
 
   /**
@@ -135,7 +135,7 @@ export const focusWithin = (baseElement) => class extends baseElement {
    * @protected
    */
   _removeFocus() {
-    console.log("_removeFocus "+ this.columnId, this.iconNumber);
+    console.log("blur ", this.columnId, this.iconNumber);
     if (this.blurAfterTimeout) {
       this._blurTimeoutId = setTimeout(() => {
         this._focus = false;
@@ -144,7 +144,7 @@ export const focusWithin = (baseElement) => class extends baseElement {
     } else {
       this._focus = false;
     }
-    this._removeFocusWithin();
+    // this._removeFocusWithin();
   }
 
   /**
@@ -153,6 +153,7 @@ export const focusWithin = (baseElement) => class extends baseElement {
    * @protected
    */
   _setFocusWithin(e) {
+    console.log("focusin ",this.columnId, this.iconNumber);
     if (this._focusoutTimeoutId) {
       clearTimeout(this._focusoutTimeoutId);
     }
@@ -165,6 +166,7 @@ export const focusWithin = (baseElement) => class extends baseElement {
    * @protected
    */
   _removeFocusWithin() {
+    console.log("focusout ", this.columnId, this.iconNumber);
     if (this.blurAfterTimeout) {
       this._focusoutTimeoutId = setTimeout(() => {
         this._focusWithin = false;
