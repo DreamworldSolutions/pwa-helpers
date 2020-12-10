@@ -163,9 +163,11 @@ export const focusWithin = (baseElement) => class extends baseElement {
     if(this._currentFocusedElement) {
       this._currentFocusedElement.addEventListener('blur', ()=> {
         console.log("blur ---- 2");
+        this._removeFocus();
       }, {once: true});
       this._currentFocusedElement.addEventListener('focusout', ()=> {
         console.log("focusout ---- 2");
+        this._removeFocusWithin();
       }, {once: true});
     }
   }
