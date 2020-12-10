@@ -51,11 +51,15 @@ let instancesCount = {};
  */
 class DwLitElement extends PolymerLitElement {
 
+  constructor() {
+    super();
+    this._setViewId();
+
+  }
+
   connectedCallback() {
     super.connectedCallback();
     this.active = true;
-
-    this._setViewId();
 
     if (config && config.debugRender) {
       this._initUpdatesCount();
