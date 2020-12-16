@@ -150,13 +150,13 @@ export const focusWithin = (baseElement) => class extends baseElement {
    * @protected
    */
   _onFocusIn(e) {
-    console.log("focus-within ==> _onFocusIn ==> ", this._viewId);
+    this._currentFocusedElement = e && e.composedPath() && e.composedPath()[0];
+    console.log("focus-within ==> _onFocusIn ==> ", this._viewId, this._currentFocusedElement);
     if (this._focusoutTimeoutId) {
       clearTimeout(this._focusoutTimeoutId);
     }
     this._focusWithin = true;
     this._focus = false;
-    this._currentFocusedElement = e && e.composedPath() && e.composedPath()[0];
   }
 
   /**
