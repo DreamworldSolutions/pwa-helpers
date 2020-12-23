@@ -1,7 +1,8 @@
 # DEPRECATED
 ***These problems are solved with the latest chromium version of Edge.***
 
-***For safari, we got an alternative css fix which fix is to use the element name with `:host` `:focus-within` css. e.g. `:host(my-element:focus-within)`***
+***For safari, we got an alternative css fix/hack***
+Use `:host(my-element:focus-within)` instead of `:host(:focus-within)`
 
 # focus-within
 
