@@ -86,7 +86,14 @@ class DwLitElement extends PolymerLitElement {
        * Input property. 
        * When it's `true` enable scrollLock feature.
        */
-      enableScrollLock: { type: Boolean }
+      enableScrollLock: { type: Boolean },
+
+      /**
+       * Input property.
+       * When it's true scroll lock applied to element.
+       * When it's false then remove scroll lock and restore it to previous position.
+       */
+      scrollLock: { type: Boolean }
     };
   }
 
@@ -224,20 +231,36 @@ class DwLitElement extends PolymerLitElement {
 
     if (this.enableScrollLock && changedProps.has('active') && changedProps.get('active') !== undefined) {
       if (!this.active) {
-        this._lastScrollPos = document.scrollingElement.scrollTop;
-        this._lastPosition = getComputedStyle(this).position;
-        this.style.position = 'fixed';
-        this.style.height = '100vh';
-        this.style.width = '100%';
-        this.style.overflow = 'hidden';
-        this.scrollTop = this._lastScrollPos;
+        this.__applyScrollLock();
       } else {
-        document.scrollingElement.scrollTop = this._lastScrollPos;
-        this.style.position = this._lastPosition;
-        this.style.height = 'auto';
-        this.style.overflow = 'unset';
+        this.__removeScrollLock();
       }
     }
+
+    if(changedProps.has('scrollLock')) {
+      if (this.scrollLock) {
+        this.__applyScrollLock();
+      } else {
+        this.__removeScrollLock();
+      }
+    }
+  }
+
+  __applyScrollLock() {
+    this._lastScrollPos = document.scrollingElement.scrollTop;
+    this._lastPosition = getComputedStyle(this).position;
+    this.style.position = 'fixed';
+    this.style.height = '100vh';
+    this.style.width = '100%';
+    this.style.overflow = 'hidden';
+    this.scrollTop = this._lastScrollPos;
+  }
+
+  __removeScrollLock(){
+    document.scrollingElement.scrollTop = this._lastScrollPos;
+    this.style.position = this._lastPosition;
+    this.style.height = 'auto';
+    this.style.overflow = 'unset';
   }
 
   /**
