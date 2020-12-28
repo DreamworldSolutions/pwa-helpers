@@ -237,7 +237,7 @@ class DwLitElement extends PolymerLitElement {
       }
     }
 
-    if(changedProps.has('scrollLock')) {
+    if(this.enableScrollLock && changedProps.has('scrollLock')) {
       if (this.scrollLock) {
         this.__applyScrollLock();
       } else {
