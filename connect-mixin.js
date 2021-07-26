@@ -24,7 +24,7 @@ export const connect = (store) => (baseElement) => class extends baseElement {
     this.__stateChanged(store.getState());
   }
   disconnectedCallback() {
-      this._storeUnsubscribe();
+      this._storeUnsubscribe && this._storeUnsubscribe();
       if (super.disconnectedCallback) {
           super.disconnectedCallback();
       }
