@@ -57,16 +57,12 @@ export const connect = (store) => (baseElement) => class extends baseElement {
    * When `active` property is not defined it will not prevent `stateChanged` call unless state is not changed.
    */
   __stateChanged(state) {
-    try {
-      if (this.__previousState === state || (this.active === false)) {
-        return;
-      }
-      
-      this.stateChanged(state);
-      this.__previousState = state;
-    } catch (err) {
-      console.error(err);
+    if (this.__previousState === state || (this.active === false)) {
+      return;
     }
+    
+    this.stateChanged(state);
+    this.__previousState = state;
   }
   /**
    * The `stateChanged(state)` method will be called when the state is updated.
