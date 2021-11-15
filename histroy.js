@@ -107,8 +107,11 @@ import lastIndexOf from 'lodash-es/lastIndexOf';
    */
   pushState(state = {}, title = '', url, autoBack) {
     if(autoBack) {
-
-      console.log("auto back");
+      const count = this.__getAutoBackCount(url);
+      if(count) {
+        this.go(-count);
+        return;
+      }
     }
     let currentPageIndex = this.getCurrentPageIndex();
     let newPageIndex = (!!currentPageIndex) ? currentPageIndex + 1: 1;
@@ -128,7 +131,10 @@ import lastIndexOf from 'lodash-es/lastIndexOf';
   replaceState(state = {}, title = '', url, autoBack) {
     if(autoBack) {
       const count = this.__getAutoBackCount(url);
-      console.log("auto back", count);
+      if(count) {
+        this.go(-count);
+        return;
+      }
     }
     let historyList = this.getHistoryList();
     historyList.splice(historyList.length - 1, 1, this.getRelativeUrl(url));
@@ -155,15 +161,16 @@ import lastIndexOf from 'lodash-es/lastIndexOf';
   }
 
   __getAutoBackCount(url) {
-    const historyList = this.getHistoryList();
-    const previousHistory = take(historyList, this.getCurrentPageIndex() + 1);
-    if(!previousHistory || previousHistory.length < 2) {
-      return;
+    if(!url) {
+      return 0;
     }
 
-    const urlPath = new URL(url).pathname;
-    const urlIndex = lastIndexOf(previousHistory, getRelativeUrl(url)) || lastIndexOf(previousHistory, getRelativeUrl(urlPath));
-    return (previousHistory.length - 1) - urlIndex;
+    const historyList = this.getHistoryList();
+    if(!historyList || historyList.length < 2) {
+      return 0;
+    }
+    const urlIndex = lastIndexOf(historyList, this.getRelativeUrl(url));
+    return urlIndex !== undefined ? historyList.length - urlIndex: 0;
   }
 
   getRelativeUrl(url) {
