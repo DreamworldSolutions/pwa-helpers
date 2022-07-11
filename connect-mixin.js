@@ -58,12 +58,7 @@ export const connect = (store) => (baseElement) => class extends baseElement {
    */
   __stateChanged(state) {
     try {
-      if (this.__previousState === state || (this.active === false)) {
-        return;
-      }
-      
       this.stateChanged(state);
-      this.__previousState = state;
     } catch (err) {
       console.error(err);
     }
