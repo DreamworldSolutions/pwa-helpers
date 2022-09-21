@@ -6,6 +6,7 @@
 
 export const isElementAlreadyRegistered = (elName) => {
   var registeredElement;
+  
   if (window && window.customElements) {
     registeredElement = window.customElements.get(elName);
     if (registeredElement) {
