@@ -6,7 +6,6 @@ jobs:
     steps:
       - checkout
       - run: yarn install --frozen-lockfile
-      - run: yarn-deduplicate --list --includePrerelease
       - run:
           name: Deploy
           command: |
@@ -19,7 +18,6 @@ jobs:
     steps:
       - checkout
       - run: yarn install --frozen-lockfile
-      - run: yarn-deduplicate --list --includePrerelease
       - run: echo "Running release job"
       - run:
           name: Deploy
