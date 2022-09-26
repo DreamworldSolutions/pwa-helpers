@@ -11,7 +11,7 @@ It was initially developed to debug any performance issues in the element due to
  
 
 ```javascript
-// For `LitElement`
+// For `lit-element`
 import { LitElement } from  "@dreamworld/pwa-helpers/lit-element.js";
 
 // For `lit`
