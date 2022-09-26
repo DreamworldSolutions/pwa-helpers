@@ -5,8 +5,8 @@ jobs:
       - image: circleci/node:lts
     steps:
       - checkout
-      - run: yarn install --production=true --flat --non-ineractive
-      - run: yarn install --production=false --non-interactive
+      - run: yarn install --frozen-lockfile
+      - run: yarn-deduplicate --list --includePrerelease
       - run:
           name: Deploy
           command: |
@@ -18,8 +18,8 @@ jobs:
       - image: circleci/node:lts
     steps:
       - checkout
-      - run: yarn install --production=true --flat --non-ineractive
-      - run: yarn install --production=false --non-interactive
+      - run: yarn install --frozen-lockfile
+      - run: yarn-deduplicate --list --includePrerelease
       - run: echo "Running release job"
       - run:
           name: Deploy
