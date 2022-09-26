@@ -11,8 +11,11 @@ It was initially developed to debug any performance issues in the element due to
  
 
 ```javascript
-
+// For `lit-element`
 import { LitElement } from  "@dreamworld/pwa-helpers/lit-element.js";
+
+// For `lit`
+import { LitElement, html, css } from '@dreamworld/pwa-helpers/lit.js'
 
 class  MyView  extends  LitElement {
 
