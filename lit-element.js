@@ -9,15 +9,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement as PolymerLitElement } from 'lit-element';
-import get from 'lodash-es/get';
+import get from 'lodash-es/get.js';
 import isEmpty from 'lodash-es/isEmpty';
 
 let config = get(window, 'dw.pwaHelpers.LitElementConfig');
 
 /**
  * List of elements which contains how many instance is created of element and how many times of element was updated
- * 
- * Example: 
+ *
+ * Example:
  * { PWA-APP: {
  *    PWA-APP-1: {
  *      userDefinedViewId: '',
@@ -25,7 +25,7 @@ let config = get(window, 'dw.pwaHelpers.LitElementConfig');
  *    }
  *  }
  * }
- * 
+ *
  * e.g. {
  *  {ElementName}: {
  *    {ElementName}-N: {
@@ -39,9 +39,9 @@ let updatesCount = {};
 
 /**
  * Represents how many instances of an element has been created so far.
- * 
+ *
  * e.g: { 'PWA-APP': 1 }
- * 
+ *
  */
 let instancesCount = {};
 
@@ -61,8 +61,8 @@ class DwLitElement extends PolymerLitElement {
       this._initUpdatesCount();
     }
 
-    //Validate mandatory properties after timeout because of if fragment is loaded using dynamic import then defined 
-    //defined property value will be available after zero timeout in connected callback 
+    //Validate mandatory properties after timeout because of if fragment is loaded using dynamic import then defined
+    //defined property value will be available after zero timeout in connected callback
     window.setTimeout(() => {
       this._validateMandatoryProps();
     }, 0);
@@ -83,7 +83,7 @@ class DwLitElement extends PolymerLitElement {
       active: { type: Boolean, reflect: true },
 
       /**
-       * Input property. 
+       * Input property.
        * When it's `true` enable scrollLock feature.
        */
       enableScrollLock: { type: Boolean },
@@ -100,15 +100,27 @@ class DwLitElement extends PolymerLitElement {
   _initUpdatesCount() {
     let nodeName = this.nodeName;
     //Set default value for connected component's updated event
+    updatesCount = updatesCount ? updatesCount: {};
+    instancesCount = instancesCount ? instancesCount: {};
     if (!updatesCount[nodeName]) {
       updatesCount[nodeName] = {};
     }
+
+    if(!this._viewId) {
+      this._setViewId();
+    }
+
     updatesCount[nodeName][this._viewId] = { userDefinedViewId: this.viewId || '', updated: 0 };
     updatesCount[this.nodeName].count = instancesCount[this.nodeName];
   }
 
   _setViewId() {
+    if(this._viewId) {
+      return;
+    }
+
     //Manage connected components instances count
+    instancesCount = instancesCount ? instancesCount: {};
     let nodeName = this.nodeName;
     if (!instancesCount[nodeName]) {
       instancesCount[nodeName] = 1;
@@ -142,7 +154,12 @@ class DwLitElement extends PolymerLitElement {
   }
 
   _cleanupUpdatesCount() {
+    if(!this._viewId) {
+      return;
+    }
+
     let nodeName = this.nodeName;
+    updatesCount = updatesCount ? updatesCount: {};
     if (updatesCount && updatesCount[nodeName] && updatesCount[nodeName][this._viewId]) {
       delete updatesCount[nodeName][this._viewId];
     }
@@ -165,6 +182,11 @@ class DwLitElement extends PolymerLitElement {
   }
 
   _incrUpdatesCount() {
+    if(!this._viewId) {
+      this._setViewId();
+    }
+
+    updatesCount = updatesCount ? updatesCount: {};
     let elementUpdatedData = updatesCount[this.nodeName][this._viewId];
     let curCount = elementUpdatedData ? elementUpdatedData.updated : 0;
     updatesCount[this.nodeName][this._viewId] = { userDefinedViewId: this.viewId || '', updated: curCount + 1 };
@@ -267,6 +289,7 @@ class DwLitElement extends PolymerLitElement {
    * @return { Object } - Updated summary of components
    */
   static getUpdatedSummary() {
+    updatesCount = updatesCount ? updatesCount: {};
     return { ...updatesCount };
   }
 
@@ -274,6 +297,7 @@ class DwLitElement extends PolymerLitElement {
    * Clear updated summary
    */
   static clearUpdatedSummary() {
+    updatesCount = updatesCount ? updatesCount: {};
     for (let eleName in updatesCount) {
       for (let eleId in updatesCount[eleName]) {
         let oInstanceUpdatedData = updatesCount[eleName];
@@ -291,4 +315,4 @@ if (!config || !config.disabled) {
   window.LitElement = DwLitElement;
 }
 
-export const LitElement = (config && config.disabled) ? PolymerLitElement : DwLitElement; 
+export const LitElement = (config && config.disabled) ? PolymerLitElement : DwLitElement;
