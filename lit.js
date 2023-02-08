@@ -1,10 +1,10 @@
 import * as lit from 'lit';
-import get from 'lodash-es/get';
-import isEmpty from 'lodash-es/isEmpty';
+import get from 'lodash-es/get.js';
+import isEmpty from 'lodash-es/isEmpty.js';
 
 export * from 'lit';
 
-let config = get(window, 'dw.pwaHelpers.LitElementConfig');
+let config = get(globalThis, 'dw.pwaHelpers.LitElementConfig');
 
 /**
  * List of elements which contains how many instance is created of element and how many times of element was updated
@@ -55,7 +55,7 @@ class DwLitElement extends lit.LitElement {
 
     //Validate mandatory properties after timeout because of if fragment is loaded using dynamic import then defined
     //defined property value will be available after zero timeout in connected callback
-    window.setTimeout(() => {
+    globalThis.setTimeout(() => {
       this._validateMandatoryProps();
     }, 0);
   }
@@ -283,7 +283,7 @@ class DwLitElement extends lit.LitElement {
 }
 
 if (!config || !config.disabled) {
-  window.LitElement = DwLitElement;
+  globalThis.LitElement = DwLitElement;
 }
 
 export const LitElement = (config && config.disabled) ? lit.LitElement : DwLitElement;
