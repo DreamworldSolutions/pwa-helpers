@@ -55,6 +55,7 @@ class DwLitElement extends lit.LitElement {
 
     //Validate mandatory properties after timeout because of if fragment is loaded using dynamic import then defined
     //defined property value will be available after zero timeout in connected callback
+    // On SSR `window` is not defined, so use `globalThis` instead.
     globalThis.setTimeout(() => {
       this._validateMandatoryProps();
     }, 0);
@@ -283,6 +284,7 @@ class DwLitElement extends lit.LitElement {
 }
 
 if (!config || !config.disabled) {
+  // On SSR `window` is not defined, so use `globalThis` instead.
   globalThis.LitElement = DwLitElement;
 }
 
