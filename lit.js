@@ -3,7 +3,7 @@ import get from 'lodash-es/get.js';
 import isEmpty from 'lodash-es/isEmpty.js';
 
 export * from 'lit';
-
+// On SSR `window` is not defined, so use `globalThis` instead.
 let config = get(globalThis, 'dw.pwaHelpers.LitElementConfig');
 
 /**
