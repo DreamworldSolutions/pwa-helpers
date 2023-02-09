@@ -10,7 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { LitElement as PolymerLitElement } from 'lit-element';
 import get from 'lodash-es/get.js';
-import isEmpty from 'lodash-es/isEmpty';
+import isEmpty from 'lodash-es/isEmpty.js';
 
 let config = get(window, 'dw.pwaHelpers.LitElementConfig');
 

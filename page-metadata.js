@@ -1,6 +1,6 @@
 import { updateMetadata } from 'pwa-helpers/metadata.js';
-import isEqual from 'lodash-es/isEqual';
-import isEmpty from 'lodash-es/isEmpty';
+import isEqual from 'lodash-es/isEqual.js';
+import isEmpty from 'lodash-es/isEmpty.js';
 
 export const pageMetadata = (baseElement) => class extends baseElement {
   constructor() {

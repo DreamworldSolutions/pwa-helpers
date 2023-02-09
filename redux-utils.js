@@ -1,7 +1,7 @@
 
 import get from 'lodash-es/get';
-import isArray from 'lodash-es/isArray';
-import findIndex from 'lodash-es/findIndex';
+import isArray from 'lodash-es/isArray.js';
+import findIndex from 'lodash-es/findIndex.js';
 
 /**
  * Overview
