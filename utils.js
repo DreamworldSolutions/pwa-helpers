@@ -1,3 +1,5 @@
+import {isServer} from 'lit';
+
 /**
  * Identifies whether a WebComponent with a name is already registered? Check is performed in both: customElements and Polymer.telemetry registries.
  * @param {String} elName - WebComponent name
@@ -5,6 +7,9 @@
  */
 
 export const isElementAlreadyRegistered = (elName) => {
+  if(isServer){
+    return false;
+  }
   var registeredElement;
   
   if (window && window.customElements) {
