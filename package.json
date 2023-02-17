@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "bowser": "^2.8.1",
+    "i18next": "^22.4.9",
     "lit": "^2.3.1",
     "lit-element": "^3.2.2",
     "lodash-es": "^4.17.21",
