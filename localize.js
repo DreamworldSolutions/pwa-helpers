@@ -59,9 +59,9 @@ export const localize = (i18next) => (BaseElement) =>
     async __initLocalize() {
       await this.__initI18n();
       await this.__loadI18nextNamespaces();
-      this._setLanguage(this._i18next.language);
-      this._i18next.on("languageChanged", () => {
-        this._setLanguage(this._i18next.language);
+      this._setLanguage(this.i18next.language);
+      this.i18next.on("languageChanged", () => {
+        this._setLanguage(this.i18next.language);
       });
     }
 
@@ -79,12 +79,12 @@ export const localize = (i18next) => (BaseElement) =>
     }
 
     __initI18n() {
-      if (this._i18next.isInitialized) {
+      if (this.i18next.isInitialized) {
         return Promise.resolve();
       }
 
       return new Promise((resolve) => {
-        this._i18next.on("initialized", () => {
+        this.i18next.on("initialized", () => {
           resolve();
         });
       });
@@ -94,7 +94,7 @@ export const localize = (i18next) => (BaseElement) =>
       if (!this.i18nextNameSpaces || this.i18nextNameSpaces.length == 0) {
         return Promise.resolve();
       }
-      return this._i18next.loadNamespaces(this.i18nextNameSpaces);
+      return this.i18next.loadNamespaces(this.i18nextNameSpaces);
     }
 
     /**
@@ -108,7 +108,7 @@ export const localize = (i18next) => (BaseElement) =>
      * @returns i18next.t() Reference: https://www.i18next.com/overview/api#t
      */
     t(keys, options) {
-      return this._i18next.t(keys, options);
+      return this.i18next.t(keys, options);
     }
   };
 
