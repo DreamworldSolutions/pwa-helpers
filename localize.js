@@ -14,7 +14,7 @@ export const localize = (i18next) => (BaseElement) =>
          * In most of the cases, this isn't need to be used by anyone. But, it's declared as property as re-render
          * is triggered automatically, when it's changed.
          */
-        language: {
+        _language: {
           type: String,
         },
 
@@ -52,7 +52,7 @@ export const localize = (i18next) => (BaseElement) =>
 
       return (
         super.shouldUpdate(changedProps) &&
-        (this.doNotDelayRendering || this.language)
+        (this.doNotDelayRendering || this._language)
       );
     }
 
@@ -75,7 +75,7 @@ export const localize = (i18next) => (BaseElement) =>
      * @param {String} newLanguage
      */
     _setLanguage(newLanguage) {
-      this.language = newLanguage;
+      this._language = newLanguage;
     }
 
     __initI18n() {
@@ -95,6 +95,13 @@ export const localize = (i18next) => (BaseElement) =>
         return Promise.resolve();
       }
       return this.i18next.loadNamespaces(this.i18nextNameSpaces);
+    }
+
+    get language() {
+      return (
+        (this.request && this.request.i18n && this.request.i18n.language) ||
+        this._language
+      );
     }
 
     /**
