@@ -25,7 +25,7 @@ export const localize = (i18next) => (BaseElement) =>
 
         /**
          * Input property.
-         * This property is available only for SSR.
+         * Its mandatory for SSR.
          */
         request: { type: Object },
       };
