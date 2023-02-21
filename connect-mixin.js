@@ -17,6 +17,17 @@
 */
 export const connect = (store) => (baseElement) =>
   class extends baseElement {
+
+    static get properties() {
+      return {
+        /**
+         * Input property.
+         * Its mandatory on SSR.
+         */
+        request: { type: Object },
+      };
+    }
+
     willUpdate(changedProps) {
       if (super.willUpdate) {
         super.willUpdate(changedProps);
