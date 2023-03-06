@@ -16,6 +16,8 @@ export const localize = (i18next) => (BaseElement) =>
          */
         _language: {
           type: String,
+          reflect: true,
+          attribute: "lang",
         },
 
         /**
@@ -34,6 +36,13 @@ export const localize = (i18next) => (BaseElement) =>
     constructor() {
       super();
       this._i18next = i18next || i18nextModule;
+    }
+
+    willUpdate(changedProps) {
+      super.willUpdate(changedProps);
+      if (isServer) {
+        this._language = this.request.i18n.language;
+      }
     }
 
     connectedCallback() {
