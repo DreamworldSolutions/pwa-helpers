@@ -21,6 +21,11 @@ export const localize = (i18next) => (BaseElement) =>
         },
 
         /**
+         * `true` when text-resources are loaded.
+         */
+        _textReady: { type: Boolean },
+
+        /**
          * When it's `true`, do not delay rendering.
          */
         doNotDelayRendering: { type: Boolean },
@@ -68,6 +73,7 @@ export const localize = (i18next) => (BaseElement) =>
     async __initLocalize() {
       await this.__initI18n();
       await this.__loadI18nextNamespaces();
+      this._textReady = true;
       this._setLanguage(this.i18next.language);
       this.i18next.on("languageChanged", () => {
         this._setLanguage(this.i18next.language);
