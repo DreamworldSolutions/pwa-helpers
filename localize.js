@@ -66,7 +66,7 @@ export const localize = (i18next) => (BaseElement) =>
 
       return (
         super.shouldUpdate(changedProps) &&
-        (this.doNotDelayRendering || this._language)
+        (this.doNotDelayRendering || this._textReady)
       );
     }
 
