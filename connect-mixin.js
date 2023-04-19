@@ -1,3 +1,4 @@
+import debounce from 'lodash-es/debounce';
 /**
   This is a JavaScript mixin that you can use to connect a Custom Element base
   class to a Redux store. The `stateChanged(state)` method will be called when
@@ -17,7 +18,6 @@
 */
 export const connect = (store) => (baseElement) =>
   class extends baseElement {
-
     static get properties() {
       return {
         /**
@@ -42,9 +42,8 @@ export const connect = (store) => (baseElement) =>
       if (super.connectedCallback) {
         super.connectedCallback();
       }
-      this._storeUnsubscribe = store.subscribe(() =>
-        this.__stateChanged(store.getState())
-      );
+      this.__stateChanged = debounce(this.__stateChanged, 50, { leading: true, trailing: treu });
+      this._storeUnsubscribe = store.subscribe(() => this.__stateChanged(store.getState()));
       this.__stateChanged(store.getState());
     }
 
@@ -65,7 +64,7 @@ export const connect = (store) => (baseElement) =>
       }
 
       this._active = val;
-      this.requestUpdate("active", oldValue);
+      this.requestUpdate('active', oldValue);
       this.isConnected && this.__stateChanged(store.getState());
     }
 
