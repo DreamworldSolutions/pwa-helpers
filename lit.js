@@ -233,8 +233,8 @@ class DwLitElement extends lit.LitElement {
       this._logChangedProps(changedProps);
     }
 
-    if(this.enableScrollLock && changedProps.has('scrollLock')) {
-      if (this.scrollLock) {
+    if (this.enableScrollLock && (changedProps.has('active') || changedProps.has('scrollLock'))) {
+      if (this.active === true && this.scrollLock === true) {
         this.__applyScrollLock();
       } else {
         this.__removeScrollLock();
@@ -247,16 +247,17 @@ class DwLitElement extends lit.LitElement {
     this._lastPosition = getComputedStyle(this).position;
     this.style.position = 'fixed';
     this.style.height = '100vh';
-    this.style.width = '100%';
     this.style.overflow = 'hidden';
     this.scrollTop = this._lastScrollPos;
   }
 
   __removeScrollLock(){
-    document.scrollingElement.scrollTop = this._lastScrollPos;
     this.style.position = this._lastPosition;
     this.style.height = 'auto';
     this.style.overflow = 'unset';
+    //This must be done after this element's style (position) is changed. 
+    //Otherwise, scrollingElement won't have anything scrollable.
+    document.scrollingElement.scrollTop = this._lastScrollPos;
   }
 
   /**
