@@ -15,7 +15,14 @@
         }
       }
 */
+import debounce from 'lodash-es/debounce.js';
+
 export const connect = (store) => (baseElement) => class extends baseElement {
+  constructor() {
+    super();
+    this.__stateChanged = debounce(this.__stateChanged, 50);
+  }
+
   connectedCallback() {
     if (super.connectedCallback) {
         super.connectedCallback();
