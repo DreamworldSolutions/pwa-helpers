@@ -7,7 +7,7 @@ import findIndex from 'lodash-es/findIndex.js';
  * Overview
  *  - The Class provides an util methods for redux state update.
  * Use cases
- *  - import { ReduxUtils } from "@dw/pwa-helpers/redux-utils";
+ *  - import { ReduxUtils } from "@dreamworld/pwa-helpers/redux-utils";
  */
 export class ReduxUtils {
     
