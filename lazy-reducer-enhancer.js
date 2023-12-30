@@ -6,7 +6,7 @@
   Example:
 
       import { combineReducers } from 'redux';
-      import { lazyReducerEnhancer } from 'pwa-helpers/lazy-reducer-enhancer.js';
+      import { lazyReducerEnhancer } from '@dreamworld/pwa-helpers/lazy-reducer-enhancer.js';
       import someReducer from './reducers/someReducer.js';
 
       export const store = createStore(

@@ -15,12 +15,11 @@
     "access": "public"
   },
   "dependencies": {
-    "bowser": "^2.8.1",
-    "i18next": "^22.4.9",
-    "lit": "^2.7.2",
-    "lit-element": "^3.2.2",
-    "lodash-es": "^4.17.21",
-    "pwa-helpers": "^0.9.1"
+    "bowser": "^2.11.0",
+    "i18next": "^23.7.12",
+    "lit": "^3.1.0",
+    "lit-element": "^4.0.2",
+    "lodash-es": "^4.17.21"
   },
   "devDependencies": {
     "semantic-release": "17.0.8"
@@ -41,5 +40,10 @@
         "channel": "${name.replace(/^feature\\//g,\"\")}"
       }
     ]
+  },
+  "prettier": {
+    "singleQuote": true,
+    "arrowParens": "avoid",
+    "printWidth": 140
   }
 }
