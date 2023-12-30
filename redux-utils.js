@@ -1,7 +1,4 @@
-
-import get from 'lodash-es/get.js';
-import isArray from 'lodash-es/isArray.js';
-import findIndex from 'lodash-es/findIndex.js';
+import { get, isArray, findIndex } from 'lodash-es';
 
 /**
  * Overview
@@ -10,7 +7,6 @@ import findIndex from 'lodash-es/findIndex.js';
  *  - import { ReduxUtils } from "@dreamworld/pwa-helpers/redux-utils";
  */
 export class ReduxUtils {
-    
   /**
    * @param {Object} state - Redux current state object.
    * @param {String} path - Path on which value is updated.
@@ -20,15 +16,15 @@ export class ReduxUtils {
    */
   static replace(state, path, value, spliter) {
     //create shallow copy of current db or new object.
-    let oState = (state) ? {...state} : {};
+    let oState = state ? { ...state } : {};
     spliter = spliter || '.';
     //Remove postfix from path
-    if(path.indexOf(spliter) === 0 ) {
-      path = path.replace(spliter, '')
+    if (path.indexOf(spliter) === 0) {
+      path = path.replace(spliter, '');
     }
-    
+
     //if its leaf path
-    if(path.indexOf(spliter) === -1) {
+    if (path.indexOf(spliter) === -1) {
       //If value is undefined then delete that path otherwise set value
       if (value === undefined) {
         delete oState[path];
@@ -42,7 +38,7 @@ export class ReduxUtils {
       let remainingPath = aPath.join(spliter);
       oState[firstPathSegment] = ReduxUtils.replace(state[firstPathSegment] || {}, remainingPath, value, spliter);
     }
-    
+
     //New state of redux
     return oState;
   }
@@ -56,17 +52,16 @@ export class ReduxUtils {
    * @return {Function} - Unsubscribe handler. Integrate invokes this method to unsubscribe live state updates.
    */
   static subscribe(store, path, callback) {
-
     //For single path subscribe
-    if(typeof path == 'string') {
+    if (typeof path == 'string') {
       let currentValue = get(store.getState(), path);
-      
-      if(currentValue !== undefined) {
+
+      if (currentValue !== undefined) {
         Promise.resolve().then(() => {
           callback(currentValue);
         });
       }
-  
+
       return store.subscribe(function () {
         let newValue = get(store.getState(), path);
         if (newValue !== currentValue) {
@@ -80,18 +75,18 @@ export class ReduxUtils {
     let pathData = {};
     let dataList = [];
 
-    path.forEach(function(sPath) {
+    path.forEach(function (sPath) {
       let currentValue = get(store.getState(), sPath);
-      if(currentValue !== undefined) {
+      if (currentValue !== undefined) {
         pathData[sPath] = currentValue;
         dataList.push({
           path: sPath,
-          value: currentValue
+          value: currentValue,
         });
       }
     });
 
-    if(dataList.length) {
+    if (dataList.length) {
       Promise.resolve().then(() => {
         callback(dataList);
       });
@@ -100,16 +95,16 @@ export class ReduxUtils {
     return store.subscribe(function () {
       let updatedDataList = [];
       let oState = store.getState();
-      path.forEach(function(sPath) {
+      path.forEach(function (sPath) {
         let newValue = get(oState, sPath);
         let prevValue = pathData[sPath] && pathData[sPath].value;
-        if(prevValue !== newValue) {
-          pathData[sPath] = {path: sPath, value: newValue};
-          updatedDataList.push({path: sPath, value: newValue});
+        if (prevValue !== newValue) {
+          pathData[sPath] = { path: sPath, value: newValue };
+          updatedDataList.push({ path: sPath, value: newValue });
         }
       });
-      
-      if(updatedDataList.length) {
+
+      if (updatedDataList.length) {
         callback(updatedDataList);
       }
     });
@@ -124,19 +119,18 @@ export class ReduxUtils {
    */
   static async _onValue(store, path) {
     let resolve;
-    
-    let promise = new Promise((res, rej)=>{
+
+    let promise = new Promise((res, rej) => {
       resolve = res;
     });
 
-    let unsubscribe = this.subscribe(store, path, (value) => {
+    let unsubscribe = this.subscribe(store, path, value => {
       unsubscribe();
       resolve(value);
     });
-    
+
     return promise;
   }
-
 
   /**
    * if value already exists for given path(s) then resolves promise immediately.
@@ -146,26 +140,28 @@ export class ReduxUtils {
    * @return {Function} - Unsubscribe handler.
    */
   static async onValue(store, paths) {
-    if(typeof paths == 'string') {
+    if (typeof paths == 'string') {
       return this._onValue(store, paths);
     }
 
     let valuesMap = {};
-    await Promise.all(paths.map(async (path)=>{
-      let value = await this._onValue(store, path);
-      valuesMap[path] = value;
-    }));
+    await Promise.all(
+      paths.map(async path => {
+        let value = await this._onValue(store, path);
+        valuesMap[path] = value;
+      })
+    );
     return Promise.resolve(valuesMap);
   }
-  
+
   /**
    * remove an item in the Array at the given `path` from specific index.
-   * 
-   * @param {*} state 
-   * @param {*} path 
-   * @param {*} index 
+   *
+   * @param {*} state
+   * @param {*} path
+   * @param {*} index
    */
-  static removeItem(state, path, index){
+  static removeItem(state, path, index) {
     let aItems = get(state, path);
     if (aItems && !isArray(aItems)) {
       throw new Error('Value at "' + path + '" is not an Array');
@@ -175,47 +171,46 @@ export class ReduxUtils {
     aItems.splice(index, 1);
     return ReduxUtils.replace(state, path, aItems);
   }
-  
+
   /**
    * Adds `items` to the Array at the given `path`. If no value exists at the given `path`, then new Array is
    * created with `items` in it.
-   * 
-   * @param {*} state 
-   * @param {*} path 
+   *
+   * @param {*} state
+   * @param {*} path
    * @param {*} items - A Single Item OR Array of items, to be added to Array.
    */
-  static addItems(state, path, items){
+  static addItems(state, path, items) {
     let aItems = get(state, path);
     if (aItems && !isArray(aItems)) {
       throw new Error('Value at "' + path + '" is not an Array');
     }
 
     items = isArray(items) ? items : [items];
-    let aNewItems = isArray(aItems) ?  [...aItems]: [];
+    let aNewItems = isArray(aItems) ? [...aItems] : [];
     aNewItems.push.apply(aNewItems, items);
     return ReduxUtils.replace(state, path, aNewItems);
   }
 
   /**
-   * Replaces an item in the Array at the given `path` with the `newItem`. Item comparision is done using `predicate` 
+   * Replaces an item in the Array at the given `path` with the `newItem`. Item comparision is done using `predicate`
    * function/object accepted by Lodash.find(). Alternatively, you can directly send the index of the item in the Array.
-   * 
+   *
    * No op if no matching item is found.
-   * @param {*} state 
-   * @param {*} path 
-   * @param {Predicate|Number} predicate 
-   * @param {*} newItem 
+   * @param {*} state
+   * @param {*} path
+   * @param {Predicate|Number} predicate
+   * @param {*} newItem
    */
   static replaceItem(state, path, predicateOrIndex, newItem) {
     let aItems = get(state, path);
 
     let index = Number.isInteger(predicateOrIndex) ? predicateOrIndex : findIndex(aItems, predicate);
-    if(index < 0) {
+    if (index < 0) {
       return;
     }
     aItems = [...aItems];
     aItems.splice(index, 1, newItem);
     return ReduxUtils.replace(state, path, aItems);
   }
-  
 }
