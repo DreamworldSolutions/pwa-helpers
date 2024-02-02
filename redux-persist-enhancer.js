@@ -101,7 +101,7 @@ class ReduxPersistEnhancer {
    * Registers event listeners
    */
   _initialize() {
-    window.addEventListener('unload', this._onWindowUnload.bind(this));
+    window.addEventListener('pagehide', this._onPageHide.bind(this));
     if (this._hasShareBetweenTabsPath) {
       window.addEventListener(this._storageEventName, this._onStorageChanged.bind(this));
 
@@ -117,9 +117,9 @@ class ReduxPersistEnhancer {
   }
 
   /**
-   * Invoked when the document being unloaded.
+   * Invoked when the page is being hide.
    */
-  _onWindowUnload() {
+  _onPageHide() {
     let dataList = [];
     //get current values for all paths of this._persistOptions and set dataList
     let oState = this._store.getState();
