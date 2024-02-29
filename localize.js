@@ -41,6 +41,7 @@ export const localize = (i18next) => (BaseElement) =>
     constructor() {
       super();
       this._i18next = i18next || i18nextModule;
+      this.__onLanguageChanged = this.__onLanguageChanged.bind(this);
     }
 
     willUpdate(changedProps) {
@@ -53,6 +54,11 @@ export const localize = (i18next) => (BaseElement) =>
     connectedCallback() {
       super.connectedCallback && super.connectedCallback();
       this.__initLocalize();
+    }
+
+    disconnectedCallback() {
+      super.disconnectedCallback();
+      this.__unsubscribeEvents();
     }
 
     /**
@@ -75,9 +81,7 @@ export const localize = (i18next) => (BaseElement) =>
       await this.__loadI18nextNamespaces();
       this._textReady = true;
       this._setLanguage(this.i18next.language);
-      this.i18next.on("languageChanged", () => {
-        this._setLanguage(this.i18next.language);
-      });
+      this.i18next.on("languageChanged", this.__onLanguageChanged);
     }
 
     /**
@@ -91,6 +95,10 @@ export const localize = (i18next) => (BaseElement) =>
      */
     _setLanguage(newLanguage) {
       this._language = newLanguage;
+    }
+
+    __onLanguageChanged() {
+      this._setLanguage(this.i18next.language);
     }
 
     __initI18n() {
@@ -110,6 +118,10 @@ export const localize = (i18next) => (BaseElement) =>
         return Promise.resolve();
       }
       return this.i18next.loadNamespaces(this.i18nextNameSpaces);
+    }
+
+    __unsubscribeEvents() {
+      this.i18next.off('languageChanged', this.__onLanguageChanged);
     }
 
     get language() {
