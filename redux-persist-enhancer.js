@@ -107,6 +107,7 @@ class ReduxPersistEnhancer {
      * Que: Why do we need this?
      * Ans: In native(Cordova) app, when user kills the application (By using application switcher); `pagehide` event
      * isn't fired and state won't persist in localStorage. So, state will be persisted whenever application switcher is opened.
+     * See this: https://cordova.apache.org/docs/en/12.x/cordova/events/events.html#pause
      */
     document.addEventListener('deviceready', () => {
       document.addEventListener('pause', this._onPageHide.bind(this), false);
