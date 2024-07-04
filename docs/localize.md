@@ -4,8 +4,6 @@
 
 - This is a JavaScript mixin that you can use to connect a Custom Element base class to a i18next. The requestUpdate() method will be called when the `i18next is initialized` or `language is changed` or `namespace is loaded`.
 
-- By default it prevents rendering on client-side until language resources loaded. It can be override by `doNotDelayRendering` property.
-
 ## Usage
 
 1. Initialize `i18next` from app-shell.

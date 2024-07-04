@@ -26,11 +26,6 @@ export const localize = (i18next) => (BaseElement) =>
         _textReady: { type: Boolean },
 
         /**
-         * When it's `true`, do not delay rendering.
-         */
-        doNotDelayRendering: { type: Boolean },
-
-        /**
          * Input property.
          * Its mandatory for SSR.
          */
@@ -59,21 +54,6 @@ export const localize = (i18next) => (BaseElement) =>
     disconnectedCallback() {
       super.disconnectedCallback();
       this.__unsubscribeEvents();
-    }
-
-    /**
-     * @returns `true` when Parent Class returns `true` & language resources is loaded except `doNotDelayRendering` is set to `true`.
-     * @param {Object} changedProps Changed properties
-     */
-    shouldUpdate(changedProps) {
-      if (isServer) {
-        return true;
-      }
-
-      return (
-        super.shouldUpdate(changedProps) &&
-        (this.doNotDelayRendering || this._textReady)
-      );
     }
 
     async __initLocalize() {
