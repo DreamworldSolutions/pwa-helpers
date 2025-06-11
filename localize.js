@@ -124,6 +124,13 @@ export const localize = (i18next) => (BaseElement) =>
     t(keys, options) {
       return this.i18next.t(keys, options);
     }
+
+    /**
+     * @returns i18next.t() Reference: https://www.i18next.com/overview/api#exists
+     */
+    exists(keys, options) {
+      return this.i18next.exists(keys, options);
+    }
   };
 
 export default localize;
