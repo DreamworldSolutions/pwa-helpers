@@ -8,7 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement as PolymerLitElement } from 'lit-element';
+import { LitElement as PolymerLitElement } from 'lit';
 import get from 'lodash-es/get.js';
 import isEmpty from 'lodash-es/isEmpty';
 
