@@ -53,7 +53,6 @@ class DwLitElement extends PolymerLitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.active = true;
 
     this._setViewId();
 
@@ -237,7 +236,7 @@ class DwLitElement extends PolymerLitElement {
     }
 
     //Current element is active.
-    return this.active;
+    return this.active === undefined || this.active;
   }
 
   updated(changedProps) {

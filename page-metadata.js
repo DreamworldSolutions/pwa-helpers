@@ -11,12 +11,19 @@ export const pageMetadata = (baseElement) => class extends baseElement {
      * It's mainly used to compare previous and new value page metadata value is not equal then only update page metadata.
      */
     this.__pageMetaData = undefined;
+
+    this.__onPopstate =  this.__onPopstate.bind(this);
   }
 
   static get properties() {
     return {
       active: { type: Boolean, reflect: true }
     };
+  }
+
+  connectedCallback() {
+    super.connectedCallback && super.connectedCallback();
+    window.addEventListener("popstate", this.__onPopstate);
   }
 
   updated(changedProps) {
@@ -29,6 +36,10 @@ export const pageMetadata = (baseElement) => class extends baseElement {
 
     //When page is active then request to update page metadata.
     if(this.active) {
+      this.__requestUpdatePageMetaData();
+    }
+
+    if(changedProps.has('language')) {
       this.__requestUpdatePageMetaData();
     }
   }
@@ -47,15 +58,35 @@ export const pageMetadata = (baseElement) => class extends baseElement {
    *  - Update page metadata using `updateMetadata` method of pwa-healpers. 
    * @private
    */
-  __requestUpdatePageMetaData() {
+  __requestUpdatePageMetaData(force = false) {
     let pageMetaData = this._getPageMetadata();
 
-    if(!isEmpty(pageMetaData) && !isEqual(this.__pageMetaData, pageMetaData)) {
+    if(!isEmpty(pageMetaData) && (force || !isEqual(this.__pageMetaData, pageMetaData))) {
       this.__pageMetaData = pageMetaData;
       updateMetadata(pageMetaData);
     }
   }
 
+  /**
+   * Force set page meta based on current page.
+   */
+  __onPopstate() {
+    if(this.active) {
+      window.setTimeout(()=> {
+        const pageMetaData = this._getPageMetadata();
+        const title = pageMetaData && pageMetaData.title;
+        if(title) {
+          document.title = title + '.';
+        }
+        this.__requestUpdatePageMetaData(true);
+      }, 0);
+    }
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener("popstate", this.__onPopstate);
+    super.disconnectedCallback && super.disconnectedCallback();
+  }
 }
 
 export default pageMetadata;
