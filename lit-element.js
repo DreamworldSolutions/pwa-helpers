@@ -53,7 +53,6 @@ class DwLitElement extends PolymerLitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.active = true;
 
     this._setViewId();
 
@@ -237,7 +236,7 @@ class DwLitElement extends PolymerLitElement {
     }
 
     //Current element is active.
-    return this.active;
+    return this.active === undefined || this.active;
   }
 
   updated(changedProps) {
@@ -251,8 +250,16 @@ class DwLitElement extends PolymerLitElement {
       this._logChangedProps(changedProps);
     }
 
-    if (this.enableScrollLock && (changedProps.has('active') || changedProps.has('scrollLock'))) {
-      if (this.active === true && this.scrollLock === true) {
+    if (this.enableScrollLock && changedProps.has('active') && changedProps.get('active') !== undefined) {
+      if (!this.active) {
+        this.__applyScrollLock();
+      } else {
+        this.__removeScrollLock();
+      }
+    }
+
+    if (this.enableScrollLock && changedProps.has('scrollLock')) {
+      if (this.scrollLock) {
         this.__applyScrollLock();
       } else {
         this.__removeScrollLock();
@@ -265,17 +272,16 @@ class DwLitElement extends PolymerLitElement {
     this._lastPosition = getComputedStyle(this).position;
     this.style.position = 'fixed';
     this.style.height = '100vh';
+    this.style.width = '100%';
     this.style.overflow = 'hidden';
     this.scrollTop = this._lastScrollPos;
   }
 
   __removeScrollLock(){
+    document.scrollingElement.scrollTop = this._lastScrollPos;
     this.style.position = this._lastPosition;
     this.style.height = 'auto';
     this.style.overflow = 'unset';
-    //This must be done after this element's style (position) is changed. 
-    //Otherwise, scrollingElement won't have anything scrollable.
-    document.scrollingElement.scrollTop = this._lastScrollPos;
   }
 
   /**

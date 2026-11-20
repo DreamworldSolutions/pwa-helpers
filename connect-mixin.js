@@ -42,10 +42,10 @@ export const connect = (store) => (baseElement) =>
       if (super.connectedCallback) {
         super.connectedCallback();
       }
+      this.__stateChanged(store.getState());
       this._storeUnsubscribe = store.subscribe(() =>
         this.__stateChanged(store.getState())
       );
-      this.__stateChanged(store.getState());
     }
 
     disconnectedCallback() {
